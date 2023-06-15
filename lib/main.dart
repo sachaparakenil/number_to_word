@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 
+
 void main() {
-  runApp(const NumberToWordConverterApp());
+  runApp(const MaterialApp(
+    home: NumberToWordConverterApp(),
+  ));
 }
 
 class NumberToWordConverterApp extends StatelessWidget {
@@ -21,7 +24,7 @@ class NumberToWordConverterApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/numberToWord': (context) => const NumberToWordConverterScreen(),
-        '/wordToNumber': (context) => const WordToNumberScreen()
+        '/wordToNumber': (context) => const WordToNumberApp()
       },
     );
   }
@@ -35,61 +38,61 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  image: DecorationImage(
-                    // fit: BoxFit.scaleDown,
-                    image: AssetImage("./assets/images/navigation.png"),
-                  ),
-                ),
-                child: Text('Number To Word'),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.settings,
-                ),
-                title: const Text('Settings'),
-                onTap: () async {
-                  // await here
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => _NextView()),
-                  );
-                  // call pop
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.share,
-                ),
-                title: const Text('Share'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.rate_review_outlined,
-                ),
-                title: const Text('Rate Us'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),// Populate the Drawer in the next step.
-      ),
+      // drawer: Drawer(
+      //     child: ListView(
+      //       // Important: Remove any padding from the ListView.
+      //       padding: EdgeInsets.zero,
+      //       children: [
+      //         const DrawerHeader(
+      //           decoration: BoxDecoration(
+      //             color: Colors.blue,
+      //             image: DecorationImage(
+      //               // fit: BoxFit.scaleDown,
+      //               image: AssetImage("./assets/images/navigation.png"),
+      //             ),
+      //           ),
+      //           child: Text('Number To Word'),
+      //         ),
+      //         ListTile(
+      //           leading: const Icon(
+      //             Icons.settings,
+      //           ),
+      //           title: const Text('Settings'),
+      //           onTap: () async {
+      //             // await here
+      //             await Navigator.push(
+      //               context,
+      //               MaterialPageRoute(builder: (context) => _NextView()),
+      //             );
+      //             // call pop
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //         ListTile(
+      //           leading: const Icon(
+      //             Icons.share,
+      //           ),
+      //           title: const Text('Share'),
+      //           onTap: () {
+      //             // Update the state of the app.
+      //             // ...
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //         ListTile(
+      //           leading: const Icon(
+      //             Icons.rate_review_outlined,
+      //           ),
+      //           title: const Text('Rate Us'),
+      //           onTap: () {
+      //             // Update the state of the app.
+      //             // ...
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //       ],
+      //     ),// Populate the Drawer in the next step.
+      // ),
       appBar: AppBar(
         title: const Text('Home'),
       ),
@@ -118,19 +121,19 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-class _NextView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Setting"),
-        ),
-      ),
-    );
-  }
-}
+//
+// class _NextView extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         appBar: AppBar(
+//           title: const Text("Setting"),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 class NumberToWordConverterScreen extends StatefulWidget {
@@ -337,6 +340,7 @@ Widget build(BuildContext context) {
 }
 }
 
+
 class WordToNumberApp extends StatelessWidget {
   const WordToNumberApp({super.key});
 
@@ -361,96 +365,144 @@ class WordToNumberScreen extends StatefulWidget {
 
 class _WordToNumberScreenState extends State<WordToNumberScreen> {
   final TextEditingController _wordController = TextEditingController();
-  int _numberOutput = 0;
-  Map<String, int> wordToNumberMap = {
-    'one': 1,
-    'two': 2,
-    'three': 3,
-    'four': 4,
-    'five': 5,
-    'six': 6,
-    'seven': 7,
-    'eight': 8,
-    'nine': 9,
-    'ten': 10,
-    'eleven': 11,
-    'twelve': 12,
-    'thirteen': 13,
-    'fourteen': 14,
-    'fifteen': 15,
-    'sixteen': 16,
-    'seventeen': 17,
-    'eighteen': 18,
-    'nineteen': 19,
-    'twenty': 20,
-    'thirty': 30,
-    'forty': 40,
-    'fifty': 50,
-    'sixty': 60,
-    'seventy': 70,
-    'eighty': 80,
-    'ninety': 90,
-    'hundred': 100,
-    'thousand': 1000,
-    'million': 1000000,
-    'billion': 1000000000,
-    'trillion': 1000000000000,
-    'quadrillion': 1000000000000000,
-    'quintillion': 1000000000000000000,
+  BigInt _numberOutput = BigInt.zero;
+  Map<String, BigInt> wordToNumberMap = {
+    'zero': BigInt.from(0),
+    'one': BigInt.from(1),
+    'two': BigInt.from(2),
+    'three': BigInt.from(3),
+    'four': BigInt.from(4),
+    'five': BigInt.from(5),
+    'six': BigInt.from(6),
+    'seven': BigInt.from(7),
+    'eight': BigInt.from(8),
+    'nine': BigInt.from(9),
+    'ten': BigInt.from(10),
+    'eleven': BigInt.from(11),
+    'twelve': BigInt.from(12),
+    'thirteen': BigInt.from(13),
+    'fourteen': BigInt.from(14),
+    'fifteen': BigInt.from(15),
+    'sixteen': BigInt.from(16),
+    'seventeen': BigInt.from(17),
+    'eighteen': BigInt.from(18),
+    'nineteen': BigInt.from(19),
+    'twenty': BigInt.from(20),
+    'thirty': BigInt.from(30),
+    'forty': BigInt.from(40),
+    'fifty': BigInt.from(50),
+    'sixty': BigInt.from(60),
+    'seventy': BigInt.from(70),
+    'eighty': BigInt.from(80),
+    'ninety': BigInt.from(90),
+    'hundred': BigInt.from(100),
+    'thousand': BigInt.from(1000),
+    'million': BigInt.from(1000000),
+    'billion': BigInt.from(1000000000),
+    // 'trillion': BigInt.from(1000000000000),
+    // 'quadrillion': BigInt.from(1000000000000000),
+    // 'quintillion': BigInt.from(1000000000000000000),
   };
 
   void convertWordToNumber() {
     String word = _wordController.text.toLowerCase();
-    int number = convertLongWordToNumber(word);
+    BigInt number = convertLongWordToNumber(word);
 
     setState(() {
       _numberOutput = number;
     });
   }
 
-  int convertLongWordToNumber(String word) {
+  BigInt convertLongWordToNumber(String word) {
     List<String> chunks = word.split(' ');
-    int number = 0;
-    int currentNumber = 0;
-    bool hasHundred = false;
+    BigInt number = BigInt.zero;
 
-    for (String chunk in chunks) {
+
+    /*for (String chunk in chunks) {
       if (wordToNumberMap.containsKey(chunk)) {
-        int value = wordToNumberMap[chunk]!;
-        if (value >= 100) {
-          hasHundred = true;
-          currentNumber *= value;
+        BigInt value = wordToNumberMap[chunk]!;
+        if (value >= BigInt.from(100)) {
+          if (currentNumber == BigInt.zero) {
+            currentNumber = value;
+          } else {
+            currentNumber *= value;
+          }
         } else {
           currentNumber += value;
         }
-      } else {
+      }
+      else {
         if (chunk == 'and') {
           continue;
         } else if (chunk == 'hundred') {
-          currentNumber *= 100;
+          currentNumber *= BigInt.from(100);
           hasHundred = true;
-        } else {
-          number += currentNumber;
-          currentNumber = 0;
+        } else if (chunk == 'thousand') {
+          number += currentNumber * BigInt.from(1000);
+          currentNumber = BigInt.zero;
+          hasThousand = true;
+          hasHundred = false;
+        }
+      }
+    }
 
-          if (hasHundred) {
-            number *= 100;
-            hasHundred = false;
+    if (hasThousand) {
+      number += currentNumber;
+    } else {
+      number += currentNumber;
+      if (hasHundred) {
+        number *= BigInt.from(100);
+      }
+    }
+    */
+
+    for(int i = 0; i < chunks.length; i++){
+
+      if(chunks[i] == "billion" || chunks[i] == "million" || chunks[i] == "thousand" || chunks[i] == "hundred"){
+        if(i-2 >= 0) {
+          if (chunks[i - 2] == "billion" || chunks[i - 2] == "million" ||
+              chunks[i - 2] == "thousand" || chunks[i - 2] == "hundred") {
+            number = number +
+                (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
           }
-
-          if (wordToNumberMap.containsKey(chunk)) {
-            currentNumber = wordToNumberMap[chunk]!;
+          else{
+            BigInt? value = wordToNumberMap[chunks[i - 2]]! + wordToNumberMap[chunks[i - 1]]! ;
+            number = number +
+                (value * wordToNumberMap[chunks[i]]!);
+          }
+        }
+        else{
+          number = number +
+              (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
+        }
+      }
+      else if(i == chunks.length-1) {
+        if(i-2 >= 0) {
+          if (chunks[i - 2] == "billion" || chunks[i - 2] == "million" ||
+              chunks[i - 2] == "thousand" || chunks[i - 2] == "hundred") {
+            number = number + wordToNumberMap[chunks[i - 1]]! + (wordToNumberMap[chunks[i]]!);
+          }
+          else {
+            number = number + (wordToNumberMap[chunks[i]]!);
+          }
+        }
+        else{
+          if(i-1 >= 0){
+            number = number + (wordToNumberMap[chunks[i-1]]!) + (wordToNumberMap[chunks[i]]!);
+          } else {
+            number = number + (wordToNumberMap[chunks[i]]!);
           }
         }
       }
     }
 
-    number += currentNumber;
+
     return number;
   }
 
   void share() {
-    String textToShare = 'Word: ${_wordController.text}\nNumber: $_numberOutput';
+    String textToShare =
+        'Word: ${_wordController.text}\nNumber: $_numberOutput';
     Share.share(textToShare);
   }
 
@@ -458,15 +510,17 @@ class _WordToNumberScreenState extends State<WordToNumberScreen> {
     String textToCopy = '${_wordController.text} - $_numberOutput';
     Clipboard.setData(ClipboardData(text: textToCopy));
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Copied to clipboard'),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Copied to clipboard'),
+      ),
+    );
   }
 
   void clear() {
     setState(() {
       _wordController.clear();
-      _numberOutput = 0;
+      _numberOutput = BigInt.zero;
     });
   }
 
@@ -480,7 +534,7 @@ class _WordToNumberScreenState extends State<WordToNumberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Word to Number'),
+        title: const Text('Word to Number Converter'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -490,18 +544,19 @@ class _WordToNumberScreenState extends State<WordToNumberScreen> {
             TextField(
               controller: _wordController,
               decoration: const InputDecoration(
-                labelText: 'Word',
+                hintText: 'Word',
+                labelText: 'Enter a word',
               ),
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: convertWordToNumber,
-              child: const Text('Convert'),
             ),
             const SizedBox(height: 16.0),
             Text(
               'Number: $_numberOutput',
               style: const TextStyle(fontSize: 18.0),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: convertWordToNumber,
+              child: const Text('Convert'),
             ),
             const SizedBox(height: 16.0),
             Row(
