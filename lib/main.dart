@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_to_word/number_spellings.dart';
 import 'package:number_to_word/word_to_number_converter.dart';
 import 'home_screen.dart';
 import 'number_to_word_converter.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(),
         '/numberToWord': (context) => const NumberToWordConverterScreen(),
         '/wordToNumber': (context) => const WordToNumberConverterScreen(),
-        '/onetwothree': (context) => OneTwoThreeScreen()
+        '/onetwothree': (context) => const OneTwoThreeScreen(),
+        '/Numberspellings': (context) => const NumberSpellings()
       },
     );
   }

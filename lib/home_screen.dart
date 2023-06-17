@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/dethronement');
+                  Navigator.pushNamed(context, '/Numberspellings');
                 },
                 style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
                 child: const Text('Number Spellings'),
