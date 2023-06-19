@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:number_to_word/number_spellings.dart';
 import 'package:number_to_word/word_to_number_converter.dart';
+import 'one_to_ten.dart';
 import 'home_screen.dart';
 import 'number_to_word_converter.dart';
 import 'one_two_three.dart';
+
 
 void main() {
   runApp(const MaterialApp(
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
         '/numberToWord': (context) => const NumberToWordConverterScreen(),
         '/wordToNumber': (context) => const WordToNumberConverterScreen(),
         '/onetwothree': (context) => const OneTwoThreeScreen(),
-        '/Numberspellings': (context) => const NumberSpellings()
+        '/Numberspellings': (context) => const NumberSpellings(),
+        '/oneToten': (context) => const OneToTen(),
       },
     );
   }
