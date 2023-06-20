@@ -1,14 +1,3 @@
-// Slider(
-// value: timeLap,
-// min: 1,
-// max: 5,
-// divisions: 4,
-// label: timeLap.toString(),
-// onChanged: (value) {
-// setState(() {
-// timeLap = value;
-// });
-// }),
 import 'package:flutter/material.dart';
 
 class Timelapse extends StatefulWidget {

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/volume.dart';
 
-double secondlapse = 1;
 
 void main() {
   runApp(const OneTwoThreeScreen());
 }
+double timeLapse = 1.0;
 
 class OneTwoThreeScreen extends StatefulWidget {
   const OneTwoThreeScreen({super.key});
@@ -72,64 +73,96 @@ class NumberPage extends StatefulWidget {
 
 class _NumberPageState extends State<NumberPage>
     with SingleTickerProviderStateMixin {
-  AudioPlayer audioPlayer = AudioPlayer();
+  // AudioPlayer audioPlayer = AudioPlayer();
   int _currentNumber = -1;
   int Showint = 0;
-  bool _isCounting = false;
+  late FlutterTts flutterTts;
+  bool isPronouncing = false;
   Timer? _timer;
+  // double timeLapse = 1.0;
   late AnimationController _animationController;
   late Animation<double> _animation;
   double timeLap = 1;
 
-  void _playAudio(int number) async {
-    await audioPlayer.stop();
-    await audioPlayer.play(AssetSource("$number.mp3"));
-  }
 
-  void _toggleCounting() {
+  // void _playAudio(int number) async {
+  //   await audioPlayer.stop();
+  //   await audioPlayer.play(AssetSource("$number.mp3"));
+  // }
+
+  void togglePronouncing() {
     setState(() {
-      if (_isCounting) {
+      if (isPronouncing) {
         setState(() {});
-        _stopCounting();
+        stopPronouncing();
       } else {
         setState(() {});
-        _startCounting();
+        startPronouncing();
       }
     });
   }
 
-  void _startCounting() {
-    _isCounting = true;
-    _timer = Timer.periodic(Duration(seconds: secondlapse.toInt()), (timer) {
+  void startPronouncing() {
+    if (_currentNumber > 100) {
       setState(() {
-        if (_currentNumber <= 100) {
+        _currentNumber = 1;
+      });
+    }
+    // isPronouncing = true;
+    _timer = Timer.periodic(Duration(seconds: timeLapse.toInt()), (timer) {
+      setState(() {
+        if (_currentNumber < 100) {
+          pronounceNumber(_currentNumber);
           _currentNumber++;
           Showint = _currentNumber;
-          _playAudio(_currentNumber);
         } else {
-          _stopCounting();
+          stopPronouncing();
         }
       });
     });
+    setState(() {
+      isPronouncing = true;
+    });
   }
 
-  void _stopCounting() {
-    _isCounting = false;
+
+  void pronounceNumber(int number) async {
+    await flutterTts.speak((_currentNumber + 1).toString());
+  }
+
+  void stopPronouncing() {
     _timer?.cancel();
+    flutterTts.stop();
+    setState(() {
+      isPronouncing = false;
+    });
   }
 
   void _restartCounting() {
-    _stopCounting();
+    stopPronouncing();
     setState(() {
       Showint = 0;
       _currentNumber = -1;
     });
   }
 
+  void update(double value) {
+    setState(() {
+      timeLapse = value;
+      if (_timer != null && _timer!.isActive) {
+        _timer!.cancel();
+        startPronouncing();
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _isCounting = false;
+    flutterTts = FlutterTts();
+    flutterTts.setVolume(0.5);
+    flutterTts.setLanguage("en-US");
+    isPronouncing = false;
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -144,7 +177,8 @@ class _NumberPageState extends State<NumberPage>
 
   @override
   void dispose() {
-    audioPlayer.dispose();
+    // audioPlayer.dispose();
+    flutterTts.stop();
     _timer?.cancel();
     _animationController.dispose();
     super.dispose();
@@ -155,7 +189,7 @@ class _NumberPageState extends State<NumberPage>
     return Scaffold(
       body: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        color: _isCounting ? Colors.yellow : Colors.orangeAccent,
+        color: isPronouncing ? Colors.yellow : Colors.orangeAccent,
         curve: Curves.easeInOut,
         child: Center(
           child: Column(
@@ -176,15 +210,15 @@ class _NumberPageState extends State<NumberPage>
               const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  _toggleCounting();
-                  if (_isCounting) {
+                  togglePronouncing();
+                  if (isPronouncing) {
                     _animationController.forward();
                   } else {
                     _animationController.reset();
                   }
                 },
                 style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: Text(_isCounting ? 'Stop' : 'Start'),
+                child: Text(isPronouncing ? 'Stop' : 'Start'),
               ),
               const SizedBox(height: 10.0),
               ElevatedButton(
@@ -203,11 +237,14 @@ class _NumberPageState extends State<NumberPage>
 class Timelapse extends StatefulWidget {
   const Timelapse({super.key});
 
+
   @override
   State<Timelapse> createState() => _TimelapseState();
 }
 
 class _TimelapseState extends State<Timelapse> {
+  _NumberPageState numberPageState = _NumberPageState();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -221,15 +258,19 @@ class _TimelapseState extends State<Timelapse> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Slider(
-              value: secondlapse,
+              value: timeLapse,
               min: 1,
               max: 5,
               divisions: 4,
-              label: secondlapse.toString(),
+              label: timeLapse.toString(),
               onChanged: (value) {
                 setState(() {
-                  secondlapse = value;
-                });
+                    timeLapse = value;
+                    if (numberPageState._timer != null && numberPageState._timer!.isActive) {
+                      numberPageState._timer!.cancel();
+                      numberPageState.startPronouncing();
+                    }
+                  });
               }),
         ],
       ),

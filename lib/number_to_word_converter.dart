@@ -1,6 +1,9 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:share/share.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class NumberToWordConverterScreen extends StatefulWidget {
   const NumberToWordConverterScreen({super.key});
@@ -14,6 +17,10 @@ class _NumberToWordConverterScreenState
     extends State<NumberToWordConverterScreen> {
   final TextEditingController _numberController = TextEditingController();
   String _convertedWord = '';
+  SpeechToText speechToText = SpeechToText();
+  String text = "";
+  var isListening = false;
+  late FlutterTts flutterTts;
 
   final Map<int, String> _numberWordMap = {
     0: 'zero',
@@ -152,11 +159,57 @@ class _NumberToWordConverterScreenState
     Share.share('Number: ${_numberController.text}\nWord: $_convertedWord');
   }
 
+  void speak(String value) async {
+    await flutterTts.speak((value).toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Number to Word Converter'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AvatarGlow(
+        endRadius: 75.0,
+        animate: isListening,
+        duration: const Duration(milliseconds: 2000),
+        glowColor: Colors.black,
+        repeat: true,
+        repeatPauseDuration: const Duration(milliseconds: 100),
+        showTwoGlows: true,
+        child: GestureDetector(
+          onTapDown: (details) async{
+            if(!isListening){
+              var available = await speechToText.initialize();
+              if(available){
+                setState(() {
+                  isListening = true;
+                  speechToText.listen(
+                      onResult: (result){
+                        setState(() {
+                          text = result.recognizedWords;
+                          _numberController.text = text;
+                        });
+                      }
+                  );
+                });
+              }
+            }
+          },
+          onTapUp: (details) {
+            setState(() {
+              isListening = false;
+            });
+            speechToText.stop();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.blue,
+            radius: 35,
+            child: Icon(isListening ? Icons.mic : Icons.mic_none,
+                color: Colors.white),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -183,22 +236,29 @@ class _NumberToWordConverterScreenState
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: _clearInput,
-                    child: const Text('Clear'),
+                    onPressed: _shareNumberAndWord,
+                    child: const Icon(Icons.share),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: _shareNumberAndWord,
-                    child: const Text('Share'),
+                    onPressed: _clearInput,
+                    child: const Icon(Icons.layers_clear_sharp),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _copyToClipboard,
-                    child: const Text('Copy'),
+                    child: const Icon(Icons.copy_all_outlined),
+                  ),
+                ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => _NumberToWordConverterScreenState().speak(_convertedWord),
+                    child: const Icon(Icons.record_voice_over_rounded),
                   ),
                 ),
               ],

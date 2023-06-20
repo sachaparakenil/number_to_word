@@ -1,6 +1,9 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:share/share.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class WordToNumberConverterScreen extends StatefulWidget {
   const WordToNumberConverterScreen({super.key});
@@ -12,7 +15,11 @@ class WordToNumberConverterScreen extends StatefulWidget {
 
 class _WordToNumberConverterScreenState
     extends State<WordToNumberConverterScreen> {
-  final TextEditingController _wordController = TextEditingController();
+  SpeechToText speechToText = SpeechToText();
+  String text = "";
+  late FlutterTts flutterTts;
+  late final TextEditingController _wordController = TextEditingController();
+  var isListening = false;
   String _numberOutput = "";
   Map<String, BigInt> wordToNumberMap = {
     'zero': BigInt.from(0),
@@ -51,6 +58,8 @@ class _WordToNumberConverterScreenState
     'quadrillion': BigInt.from(1000000000000000),
     'quintillion': BigInt.from(1000000000000000000),
   };
+
+
 
   void convertWordToNumber() {
     String word = _wordController.text.toLowerCase();
@@ -154,6 +163,10 @@ class _WordToNumberConverterScreenState
     });
   }
 
+  void speak(int number) async {
+    await flutterTts.speak((number).toString());
+  }
+
   @override
   void dispose() {
     _wordController.dispose();
@@ -166,6 +179,48 @@ class _WordToNumberConverterScreenState
       appBar: AppBar(
         title: const Text('Word to Number Converter'),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AvatarGlow(
+        endRadius: 75.0,
+        animate: isListening,
+        duration: const Duration(milliseconds: 2000),
+        glowColor: Colors.black,
+        repeat: true,
+        repeatPauseDuration: const Duration(milliseconds: 100),
+        showTwoGlows: true,
+        child: GestureDetector(
+          onTapDown: (details) async{
+            if(!isListening){
+              var available = await speechToText.initialize();
+              if(available){
+                setState(() {
+                  isListening = true;
+                  speechToText.listen(
+                    onResult: (result){
+                      setState(() {
+                        text = result.recognizedWords;
+                        _wordController.text = text;
+                      });
+                    }
+                  );
+                });
+              }
+            }
+          },
+          onTapUp: (details) {
+            setState(() {
+              isListening = false;
+            });
+            speechToText.stop();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.blue,
+            radius: 35,
+            child: Icon(isListening ? Icons.mic : Icons.mic_none,
+                color: Colors.white),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -173,7 +228,7 @@ class _WordToNumberConverterScreenState
           children: [
             TextField(
               controller: _wordController,
-              decoration: const InputDecoration(
+              decoration: const InputDecoration (
                 hintText: 'Word',
                 labelText: 'Enter a word',
               ),
@@ -194,21 +249,28 @@ class _WordToNumberConverterScreenState
                 Expanded(
                   child: ElevatedButton(
                     onPressed: share,
-                    child: const Text('Share'),
+                    child: const Icon(Icons.share),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: copy,
-                    child: const Text('Copy'),
+                    child: const Icon(Icons.copy_all),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: clear,
-                    child: const Text('Clear'),
+                    child: const Icon(Icons.layers_clear),
+                  ),
+                ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => _WordToNumberConverterScreenState().speak(_numberOutput as int),
+                    child: const Icon(Icons.record_voice_over_rounded),
                   ),
                 ),
               ],
