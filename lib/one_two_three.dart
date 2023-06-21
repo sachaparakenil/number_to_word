@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/volume.dart';
-
 
 void main() {
   runApp(const OneTwoThreeScreen());
 }
+
 double timeLapse = 1.0;
 
 class OneTwoThreeScreen extends StatefulWidget {
@@ -39,7 +38,8 @@ class _OneTwoThreeScreenState extends State<OneTwoThreeScreen> {
       appBar: AppBar(
         title: const Text("Number Pronouncer"),
       ),
-      floatingActionButton: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      floatingActionButton:
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         FloatingActionButton(
           onPressed: () {
             openDialog();
@@ -73,9 +73,8 @@ class NumberPage extends StatefulWidget {
 
 class _NumberPageState extends State<NumberPage>
     with SingleTickerProviderStateMixin {
-  // AudioPlayer audioPlayer = AudioPlayer();
   int _currentNumber = -1;
-  int Showint = 0;
+  int showint = 0;
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
@@ -83,12 +82,6 @@ class _NumberPageState extends State<NumberPage>
   late AnimationController _animationController;
   late Animation<double> _animation;
   double timeLap = 1;
-
-
-  // void _playAudio(int number) async {
-  //   await audioPlayer.stop();
-  //   await audioPlayer.play(AssetSource("$number.mp3"));
-  // }
 
   void togglePronouncing() {
     setState(() {
@@ -114,7 +107,7 @@ class _NumberPageState extends State<NumberPage>
         if (_currentNumber < 100) {
           pronounceNumber(_currentNumber);
           _currentNumber++;
-          Showint = _currentNumber;
+          showint = _currentNumber;
         } else {
           stopPronouncing();
         }
@@ -124,7 +117,6 @@ class _NumberPageState extends State<NumberPage>
       isPronouncing = true;
     });
   }
-
 
   void pronounceNumber(int number) async {
     await flutterTts.speak((_currentNumber + 1).toString());
@@ -141,7 +133,7 @@ class _NumberPageState extends State<NumberPage>
   void _restartCounting() {
     stopPronouncing();
     setState(() {
-      Showint = 0;
+      showint = 0;
       _currentNumber = -1;
     });
   }
@@ -177,7 +169,6 @@ class _NumberPageState extends State<NumberPage>
 
   @override
   void dispose() {
-    // audioPlayer.dispose();
     flutterTts.stop();
     _timer?.cancel();
     _animationController.dispose();
@@ -201,7 +192,7 @@ class _NumberPageState extends State<NumberPage>
                   return Opacity(
                     opacity: _animation.value,
                     child: Text(
-                      Showint.toString(),
+                      showint.toString(),
                       style: const TextStyle(fontSize: 150),
                     ),
                   );
@@ -237,7 +228,6 @@ class _NumberPageState extends State<NumberPage>
 class Timelapse extends StatefulWidget {
   const Timelapse({super.key});
 
-
   @override
   State<Timelapse> createState() => _TimelapseState();
 }
@@ -265,12 +255,13 @@ class _TimelapseState extends State<Timelapse> {
               label: timeLapse.toString(),
               onChanged: (value) {
                 setState(() {
-                    timeLapse = value;
-                    if (numberPageState._timer != null && numberPageState._timer!.isActive) {
-                      numberPageState._timer!.cancel();
-                      numberPageState.startPronouncing();
-                    }
-                  });
+                  timeLapse = value;
+                  if (numberPageState._timer != null &&
+                      numberPageState._timer!.isActive) {
+                    numberPageState._timer!.cancel();
+                    numberPageState.startPronouncing();
+                  }
+                });
               }),
         ],
       ),

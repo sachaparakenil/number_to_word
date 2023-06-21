@@ -59,8 +59,6 @@ class _WordToNumberConverterScreenState
     'quintillion': BigInt.from(1000000000000000000),
   };
 
-
-
   void convertWordToNumber() {
     String word = _wordController.text.toLowerCase();
     String number = convertLongWordToNumber(word);
@@ -86,18 +84,12 @@ class _WordToNumberConverterScreenState
       if (chunks[i] == "billion" ||
           chunks[i] == "million" ||
           chunks[i] == "thousand" ||
-          chunks[i] == "hundred" ||
-          chunks[i] == "trillion" ||
-          chunks[i] == "quadrillion" ||
-          chunks[i] == "quintillion") {
+          chunks[i] == "hundred") {
         if (i - 2 >= 0) {
           if (chunks[i - 2] == "billion" ||
               chunks[i - 2] == "million" ||
               chunks[i - 2] == "thousand" ||
-              chunks[i - 2] == "hundred" ||
-              chunks[i] == "trillion" ||
-              chunks[i] == "quadrillion" ||
-              chunks[i] == "quintillion") {
+              chunks[i - 2] == "hundred") {
             number = number +
                 (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
           } else {
@@ -114,10 +106,7 @@ class _WordToNumberConverterScreenState
           if (chunks[i - 2] == "billion" ||
               chunks[i - 2] == "million" ||
               chunks[i - 2] == "thousand" ||
-              chunks[i - 2] == "hundred" ||
-              chunks[i] == "trillion" ||
-              chunks[i] == "quadrillion" ||
-              chunks[i] == "quintillion") {
+              chunks[i - 2] == "hundred") {
             number = number +
                 wordToNumberMap[chunks[i - 1]]! +
                 (wordToNumberMap[chunks[i]]!);
@@ -164,7 +153,10 @@ class _WordToNumberConverterScreenState
   }
 
   void speak(int number) async {
-    await flutterTts.speak((number).toString());
+    flutterTts = FlutterTts();
+    flutterTts.setVolume(0.5);
+    flutterTts.setLanguage("en-US");
+    await flutterTts.speak(number.toString());
   }
 
   @override
@@ -189,20 +181,18 @@ class _WordToNumberConverterScreenState
         repeatPauseDuration: const Duration(milliseconds: 100),
         showTwoGlows: true,
         child: GestureDetector(
-          onTapDown: (details) async{
-            if(!isListening){
+          onTapDown: (details) async {
+            if (!isListening) {
               var available = await speechToText.initialize();
-              if(available){
+              if (available) {
                 setState(() {
                   isListening = true;
-                  speechToText.listen(
-                    onResult: (result){
-                      setState(() {
-                        text = result.recognizedWords;
-                        _wordController.text = text;
-                      });
-                    }
-                  );
+                  speechToText.listen(onResult: (result) {
+                    setState(() {
+                      text = result.recognizedWords;
+                      _wordController.text = text;
+                    });
+                  });
                 });
               }
             }
@@ -228,7 +218,7 @@ class _WordToNumberConverterScreenState
           children: [
             TextField(
               controller: _wordController,
-              decoration: const InputDecoration (
+              decoration: const InputDecoration(
                 hintText: 'Word',
                 labelText: 'Enter a word',
               ),
@@ -247,30 +237,42 @@ class _WordToNumberConverterScreenState
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: share,
-                    child: const Icon(Icons.share),
+                  child: Tooltip(
+                    message: "Share",
+                    child: ElevatedButton(
+                      onPressed: share,
+                      child: const Icon(Icons.share),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: copy,
-                    child: const Icon(Icons.copy_all),
+                  child: Tooltip(
+                    message: "Copy",
+                    child: ElevatedButton(
+                      onPressed: copy,
+                      child: const Icon(Icons.copy_all),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: clear,
-                    child: const Icon(Icons.layers_clear),
+                  child: Tooltip(
+                    message: "Clear",
+                    child: ElevatedButton(
+                      onPressed: clear,
+                      child: const Icon(Icons.layers_clear),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => _WordToNumberConverterScreenState().speak(_numberOutput as int),
-                    child: const Icon(Icons.record_voice_over_rounded),
+                  child: Tooltip(
+                    message: "Speak",
+                    child: ElevatedButton(
+                      onPressed: () => speak(int.parse(_numberOutput)),
+                      child: const Icon(Icons.record_voice_over_rounded),
+                    ),
                   ),
                 ),
               ],

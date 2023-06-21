@@ -159,8 +159,11 @@ class _NumberToWordConverterScreenState
     Share.share('Number: ${_numberController.text}\nWord: $_convertedWord');
   }
 
-  void speak(String value) async {
-    await flutterTts.speak((value).toString());
+  void speak(int number) async {
+    flutterTts = FlutterTts();
+    flutterTts.setVolume(0.5);
+    flutterTts.setLanguage("en-US");
+    await flutterTts.speak(number.toString());
   }
 
   @override
@@ -235,30 +238,42 @@ class _NumberToWordConverterScreenState
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: _shareNumberAndWord,
-                    child: const Icon(Icons.share),
+                  child: Tooltip(
+                    message: "Share",
+                    child: ElevatedButton(
+                      onPressed: _shareNumberAndWord,
+                      child: const Icon(Icons.share),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: _clearInput,
-                    child: const Icon(Icons.layers_clear_sharp),
+                  child: Tooltip(
+                    message: "Clear",
+                    child: ElevatedButton(
+                      onPressed: _clearInput,
+                      child: const Icon(Icons.layers_clear_sharp),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: _copyToClipboard,
-                    child: const Icon(Icons.copy_all_outlined),
+                  child: Tooltip(
+                    message: "Copy",
+                    child: ElevatedButton(
+                      onPressed: _copyToClipboard,
+                      child: const Icon(Icons.copy_all_outlined),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => _NumberToWordConverterScreenState().speak(_convertedWord),
-                    child: const Icon(Icons.record_voice_over_rounded),
+                  child: Tooltip(
+                    message: "Speak",
+                    child: ElevatedButton(
+                      onPressed: () => speak(int.parse(_numberController.text)),
+                      child: const Icon(Icons.record_voice_over_rounded),
+                    ),
                   ),
                 ),
               ],
