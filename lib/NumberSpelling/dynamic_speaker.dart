@@ -1,20 +1,27 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:number_to_word/volume.dart';
+import 'package:number_to_word/Additional/volume.dart';
+import '../Additional/constants.dart';
+import 'one_to_ten.dart';
 
-import 'constants.dart';
-
-double timeLapse = 2.0;
-
-class OneToTen extends StatefulWidget {
-  const OneToTen({super.key});
+class DynamicSpeaker extends StatefulWidget {
+  final int initialValue;
+  final int finalValue;
+  final int showInt;
+  final int currentInt;
+  DynamicSpeaker(
+      {super.key,
+      required this.initialValue,
+      required this.finalValue,
+      required this.showInt,
+      required this.currentInt});
 
   @override
-  State<OneToTen> createState() => _OneToTenState();
+  State<DynamicSpeaker> createState() => _DynamicSpeakerState();
 }
 
-class _OneToTenState extends State<OneToTen> {
+class _DynamicSpeakerState extends State<DynamicSpeaker> {
   @override
   Widget build(BuildContext context) {
     Future openDialog() => showDialog(
@@ -27,8 +34,12 @@ class _OneToTenState extends State<OneToTen> {
     Future OpenDialog() => showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const Dialog(
-            child: Timelapse(),
+          return Dialog(
+            child: DynamicTimelapse(
+                initialValue: widget.initialValue,
+                finalValue: widget.finalValue,
+                showInt: widget.showInt,
+                currentInt: widget.currentInt),
           );
         });
 
@@ -57,30 +68,42 @@ class _OneToTenState extends State<OneToTen> {
           },
           tooltip: "Time Lapse",
           child: const Icon(Icons.timer),
-        ),
-      ],),
-      body: const NumberPage(),
+        )
+      ]),
+      body: DynamicNumberPage(
+          initialValue: widget.initialValue,
+          finalValue: widget.finalValue,
+          showInt: widget.showInt,
+          currentInt: widget.currentInt),
     );
   }
 }
 
-class NumberPage extends StatefulWidget {
-  const NumberPage({super.key});
+class DynamicNumberPage extends StatefulWidget {
+  final int initialValue;
+  final int finalValue;
+  late  int showInt;
+  late  int currentInt;
+  DynamicNumberPage(
+      {super.key,
+      required this.initialValue,
+      required this.finalValue,
+      required this.showInt,
+      required this.currentInt});
 
   @override
-  _NumberPageState createState() => _NumberPageState();
+  DynamicNumberPageState createState() => DynamicNumberPageState();
 }
 
-class _NumberPageState extends State<NumberPage>
+class DynamicNumberPageState extends State<DynamicNumberPage>
     with SingleTickerProviderStateMixin {
-  int _currentNumber = -1;
-  int showint = 0;
+
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
   late AnimationController _animationController;
   late Animation<double> _animation;
-  double timeLap = 1;
+  double timeLap = 2;
 
   // Future<void> speakNumber(String numberText) async {
   //   await flutterTts.setLanguage('en-US');
@@ -99,29 +122,29 @@ class _NumberPageState extends State<NumberPage>
         stopPronouncing();
       } else {
         setState(() {});
-        startPronouncing(0, 10);
+        startPronouncing(widget.initialValue, widget.finalValue);
       }
     });
   }
 
   void startPronouncing(int initialValue, int finalValue) {
-    if (_currentNumber > finalValue) {
+    if (widget.currentInt > finalValue) {
       setState(() {
-        _currentNumber = initialValue;
+        widget.currentInt = initialValue;
       });
     }
     // isPronouncing = true;
     _timer = Timer.periodic(Duration(seconds: timeLapse.toInt()), (timer) {
       setState(() {
-        if (_currentNumber < finalValue) {
+        if (widget.currentInt < finalValue) {
           // print("1 ${_currentNumber} and ${showint}");
-          pronounceNumber(_currentNumber);
+          pronounceNumber(widget.currentInt);
           // print("2 ${_currentNumber} and ${showint}");
 
-          _currentNumber++;
+          widget.currentInt++;
           // print("3 ${_currentNumber} and ${showint}");
 
-          showint = _currentNumber;
+          widget.showInt = widget.currentInt;
           // print("4 ${_currentNumber} and ${showint}");
         } else {
           stopPronouncing();
@@ -134,7 +157,7 @@ class _NumberPageState extends State<NumberPage>
   }
 
   void pronounceNumber(int number) async {
-    await flutterTts.speak((spellNumber(_currentNumber + 1)).toString());
+    await flutterTts.speak((spellNumber(widget.currentInt + 1)).toString());
   }
 
   void stopPronouncing() {
@@ -148,8 +171,8 @@ class _NumberPageState extends State<NumberPage>
   void _restartCounting() {
     stopPronouncing();
     setState(() {
-      showint = 0;
-      _currentNumber = -1;
+      widget.showInt = widget.initialValue;
+      widget.currentInt = widget.initialValue-1;
     });
   }
 
@@ -158,7 +181,7 @@ class _NumberPageState extends State<NumberPage>
       timeLapse = value;
       if (_timer != null && _timer!.isActive) {
         _timer!.cancel();
-        startPronouncing(0, 10);
+        startPronouncing(widget.initialValue, widget.finalValue);
       }
     });
   }
@@ -207,7 +230,7 @@ class _NumberPageState extends State<NumberPage>
                   return Opacity(
                     opacity: _animation.value,
                     child: Text(
-                      shownumber(showint).toString(),
+                      shownumber(widget.showInt).toString(),
                       style: const TextStyle(fontSize: 70),
                     ),
                   );
@@ -240,15 +263,26 @@ class _NumberPageState extends State<NumberPage>
   }
 }
 
-class Timelapse extends StatefulWidget {
-  const Timelapse({super.key});
+class DynamicTimelapse extends StatefulWidget {
+  final int initialValue;
+  final int finalValue;
+  final int showInt;
+  final int currentInt;
+  DynamicTimelapse(
+      {super.key,
+      required this.initialValue,
+      required this.finalValue,
+      required this.showInt,
+      required this.currentInt});
 
   @override
-  State<Timelapse> createState() => _TimelapseState();
+  State<DynamicTimelapse> createState() => DynamicTimelapseState();
 }
 
-class _TimelapseState extends State<Timelapse> {
-  _NumberPageState numberPageState = _NumberPageState();
+class DynamicTimelapseState extends State<DynamicTimelapse> {
+  // _NumberPageState numberPageState = _NumberPageState();
+
+  DynamicNumberPageState dynamicNumberPageState = DynamicNumberPageState();
 
   @override
   Widget build(BuildContext context) {
@@ -271,10 +305,10 @@ class _TimelapseState extends State<Timelapse> {
               onChanged: (value) {
                 setState(() {
                   timeLapse = value;
-                  if (numberPageState._timer != null &&
-                      numberPageState._timer!.isActive) {
-                    numberPageState._timer!.cancel();
-                    numberPageState.startPronouncing(0, 10);
+                  if (dynamicNumberPageState._timer != null &&
+                      dynamicNumberPageState._timer!.isActive) {
+                    dynamicNumberPageState._timer!.cancel();
+                    dynamicNumberPageState.startPronouncing(widget.initialValue, widget.finalValue);
                   }
                 });
               }),

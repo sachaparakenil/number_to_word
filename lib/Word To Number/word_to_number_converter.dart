@@ -21,7 +21,7 @@ class _WordToNumberConverterScreenState
   late final TextEditingController _wordController = TextEditingController();
   var isListening = false;
   String _numberOutput = "";
-  Map<String, BigInt> wordToNumberMap = {
+/*  Map<String, BigInt> wordToNumberMap = {
     'zero': BigInt.from(0),
     'one': BigInt.from(1),
     'two': BigInt.from(2),
@@ -57,196 +57,72 @@ class _WordToNumberConverterScreenState
     'trillion': BigInt.from(1000000000000),
     'quadrillion': BigInt.from(1000000000000000),
     'quintillion': BigInt.from(1000000000000000000),
-  };
+  };*/
 
   void convertWordToNumber() {
     String word = _wordController.text.toLowerCase();
-    String number = convertLongWordToNumber(word);
+    String number = Words2Numbers(word);
 
     setState(() {
       _numberOutput = number;
     });
   }
 
-  String convertLongWordToNumber(String word) {
-    String name = word.trim();
-    List<String> chunks = name.split(' ');
+  /*String convertLongWordToNumber(String word) {
+    List<String> chunks = word.split(' ');
     BigInt number = BigInt.zero;
     chunks.remove("and");
 
     for (String chunk in chunks) {
       if (wordToNumberMap.containsKey(chunk)) {
       } else {
-        return "Invalid input: ('$chunk')";
+        return "Invalid input: '$chunk'";
       }
     }
 
-   for (int i = 0; i < chunks.length; i++) {
-
+    for (int i = 0; i < chunks.length; i++) {
+      if(chunks[i] == "hundred"){
+        for(i; i < chunks.length; i++){
+          if (chunks[i] == "billion" ||
+              chunks[i] == "million" ||
+              chunks[i] == "thousand"){
+            if(chunks[i-1] == "hundred"){
+              number = number + wordToNumberMap[chunks[i-2]]! * wordToNumberMap[chunks[i-1]]!;
+            }
+            if(chunks[i-2] == "hundred"){
+              BigInt? value = wordToNumberMap[chunks[i-3]]! * wordToNumberMap[chunks[i-2]]!;
+              number = value + wordToNumberMap[chunks[i-1]]!;
+            }
+            if(chunks[i-3] == "hundred"){
+              BigInt? value = wordToNumberMap[chunks[i-4]]! * wordToNumberMap[chunks[i-3]]!;
+              number = value + wordToNumberMap[chunks[i-2]]! + wordToNumberMap[chunks[i-1]]!;
+            }
+          }
+        }
+      }
       if (chunks[i] == "billion" ||
           chunks[i] == "million" ||
           chunks[i] == "thousand" ||
           chunks[i] == "hundred") {
-//one hundred twenty six billion six hundred fifty five million fifty two thousand two hundred seventy seven
-      //one hundred billion six hundred million two hundred
-
-        if (i - 1 >= 0) {
-          if (chunks[i] == "billion" || chunks[i] == "million") {
-            if (chunks[i - 1] == "hundred") {
-              if (chunks[i - 1] == "hundred") {
-                number = number +
-                    (wordToNumberMap[chunks[i - 2]]! *
-                        wordToNumberMap[chunks[i - 1]]! *
-                        wordToNumberMap[chunks[i]]!);
-                print("Enter in -1 $number");
-              }
-            }
-            if (i - 2 >= 0) {
-              if (chunks[i - 2] == "hundred") {
-                if (chunks[i - 2] == "hundred") {
-                  number = number +
-                      (wordToNumberMap[chunks[i - 3]]! *
-                          wordToNumberMap[chunks[i - 2]]! *
-                          wordToNumberMap[chunks[i]]!);
-                  print("Enter in -2 $number");
-                }
-              }
-            }
-            if (i - 3 >= 0) {
-              if (chunks[i - 3] == "hundred") {
-                if (chunks[i - 3] == "hundred") {
-                  number = number +
-                      (wordToNumberMap[chunks[i - 4]]! *
-                          wordToNumberMap[chunks[i - 3]]! *
-                          wordToNumberMap[chunks[i]]!);
-                  print("Enter in -3 $number");
-                }
-              }
-            }
+        if (i - 2 >= 0) {
+          if (chunks[i - 2] == "billion" ||
+              chunks[i - 2] == "million" ||
+              chunks[i - 2] == "thousand" ||
+              chunks[i - 2] == "hundred") {
+            number = number +
+                (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
+            print("1  $number");
+          } else {
+            BigInt? value = wordToNumberMap[chunks[i - 2]]! +
+                wordToNumberMap[chunks[i - 1]]!;
+            print("2  $value");
+            number = number + (value * wordToNumberMap[chunks[i]]!);
+            print("3  $number");
           }
-        }
-
-        if (chunks[i] == "hundred" ||
-            chunks[i] == "billion" ||
-            chunks[i] == "million" ||
-            chunks[i] == "thousand") {
-
-          if(chunks[i] == "hundred") {
-            if(chunks.length > i+1 || chunks.length > i+2 || chunks.length > i+3) {
-              if((chunks.length > i+1 && (chunks[i+1] != "billion" && chunks[i+1] != "million")) &&
-                  (chunks.length > i+2 && (chunks[i+2] != "billion" && chunks[i+2] != "million")) &&
-                  (chunks.length > i+3 && (chunks[i+3] != "billion" && chunks[i+3] != "million"))) {
-
-                if (i - 2 >= 0) {
-                  print("myTest $number");
-                  if (chunks[i - 2] == "billion" ||
-                      chunks[i - 2] == "million" ||
-                      chunks[i - 2] == "thousand" ||
-                      chunks[i - 2] == "hundred") {
-
-                    number = number +
-                        (wordToNumberMap[chunks[i - 1]]! *
-                            wordToNumberMap[chunks[i]]!);
-                  } else {
-                    if (chunks[i - 1] != "hundred") {
-                      BigInt? value = wordToNumberMap[chunks[i - 2]]! +
-                          wordToNumberMap[chunks[i - 1]]!;
-                      number = number + (value * wordToNumberMap[chunks[i]]!);
-                    }
-                  }
-                }
-                else {
-                  number = number +
-                      (wordToNumberMap[chunks[i - 1]]! *
-                          wordToNumberMap[chunks[i]]!);
-                }
-              }
-              else{
-                if (i - 2 >= 0) {
-                  if (chunks[i - 2] == "billion" ||
-                      chunks[i - 2] == "million" ||
-                      chunks[i - 2] == "thousand" ||
-                      chunks[i - 2] == "hundred") {
-                    print("myTest $number");
-                    if(chunks[i] == "hundred") {
-                      if((chunks.length > i+1 && (chunks[i+1] != "billion" && chunks[i+1] != "million")) &&
-                          (chunks.length > i+2 && (chunks[i+2] != "billion" && chunks[i+2] != "million"))){
-                        if(!(chunks.length > i+3 && (chunks[i+3] != "billion" && chunks[i+3] != "million"))) {
-                          number = number +
-                              (wordToNumberMap[chunks[i - 1]]! *
-                                  wordToNumberMap[chunks[i]]!);
-                        }
-                      }
-                    }
-                    else {
-                      number = number +
-                          (wordToNumberMap[chunks[i - 1]]! *
-                              wordToNumberMap[chunks[i]]!);
-                    }
-                  } else {
-                    if (chunks[i - 1] != "hundred") {
-                      BigInt? value = wordToNumberMap[chunks[i - 2]]! +
-                          wordToNumberMap[chunks[i - 1]]!;
-                      number = number + (value * wordToNumberMap[chunks[i]]!);
-                    }
-                  }
-                }
-                else {
-                  // number = number +
-                  //     (wordToNumberMap[chunks[i - 1]]! *
-                  //         wordToNumberMap[chunks[i]]!);
-                }
-              }
-            }
-            else{
-              if (i - 2 >= 0) {
-                if (chunks[i - 2] == "billion" ||
-                    chunks[i - 2] == "million" ||
-                    chunks[i - 2] == "thousand" ||
-                    chunks[i - 2] == "hundred") {
-
-                  number = number +
-                      (wordToNumberMap[chunks[i - 1]]! *
-                          wordToNumberMap[chunks[i]]!);
-                } else {
-                  if (chunks[i - 1] != "hundred") {
-                    BigInt? value = wordToNumberMap[chunks[i - 2]]! +
-                        wordToNumberMap[chunks[i - 1]]!;
-                    number = number + (value * wordToNumberMap[chunks[i]]!);
-                  }
-                }
-              }
-              else {
-                number = number +
-                    (wordToNumberMap[chunks[i - 1]]! *
-                        wordToNumberMap[chunks[i]]!);
-              }
-            }
-          } else{
-            if (i - 2 >= 0) {
-              if (chunks[i - 2] == "billion" ||
-                  chunks[i - 2] == "million" ||
-                  chunks[i - 2] == "thousand" ||
-                  chunks[i - 2] == "hundred") {
-                number = number +
-                    (wordToNumberMap[chunks[i - 1]]! *
-                        wordToNumberMap[chunks[i]]!);
-              } else {
-                if (chunks[i - 1] != "hundred") {
-                  BigInt? value = wordToNumberMap[chunks[i - 2]]! +
-                      wordToNumberMap[chunks[i - 1]]!;
-                  number = number + (value * wordToNumberMap[chunks[i]]!);
-                }
-              }
-            }
-            else {
-              number = number +
-                  (wordToNumberMap[chunks[i - 1]]! *
-                      wordToNumberMap[chunks[i]]!);
-            }
-          }
-
-          print("number value $number");
+        } else {
+          number = number +
+              (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
+          print("3  $number");
         }
       } else if (i == chunks.length - 1) {
         if (i - 2 >= 0) {
@@ -272,10 +148,126 @@ class _WordToNumberConverterScreenState
       }
     }
 
-
-
     return number.toString();
+  }*/
+
+
+  String Words2Numbers(String string) {
+    bool isValidInput = true;
+    int result = 0;
+    int finalResult = 0;
+    List<String> allowedStrings = [
+      "zero", "one", "two", "three", "four", "five", "six", "seven",
+        "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+        "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
+        "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
+        "hundred", "thousand", "million", "billion", "trillion"];
+
+    String input = string;
+
+    if (string.isNotEmpty) {
+      input = input.replaceAll("-", " ");
+      input = input.toLowerCase().replaceAll(" and", " ");
+      List<String> splittedParts = input.trim().split(" ");
+
+      for (String str in splittedParts) {
+        if (!allowedStrings.contains(str)) {
+          isValidInput = false;
+          // System.out.println("Invalid word found : " + str);
+          break;
+        }
+      }
+      if (isValidInput) {
+        for (String str in splittedParts) {
+          if (str == "zero") {
+            result += 0;
+          } else if (str == ("one")) {
+            result += 1;
+          } else if (str == ("two")) {
+            result += 2;
+          } else if (str == ("three")) {
+            result += 3;
+          } else if (str == ("four")) {
+            result += 4;
+          } else if (str == ("five")) {
+            result += 5;
+          } else if (str == ("six")) {
+            result += 6;
+          } else if (str == ("seven")) {
+            result += 7;
+          } else if (str == ("eight")) {
+            result += 8;
+          } else if (str == ("nine")) {
+            result += 9;
+          } else if (str == ("ten")) {
+            result += 10;
+          } else if (str == ("eleven")) {
+            result += 11;
+          } else if (str == ("twelve")) {
+            result += 12;
+          } else if (str == ("thirteen")) {
+            result += 13;
+          } else if (str == ("fourteen")) {
+            result += 14;
+          } else if (str == ("fifteen")) {
+            result += 15;
+          } else if (str == ("sixteen")) {
+            result += 16;
+          } else if (str == ("seventeen")) {
+            result += 17;
+          } else if (str == ("eighteen")) {
+            result += 18;
+          } else if (str == ("nineteen")) {
+            result += 19;
+          } else if (str == ("twenty")) {
+            result += 20;
+          } else if (str == ("thirty")) {
+            result += 30;
+          } else if (str == ("forty")) {
+            result += 40;
+          } else if (str == ("fifty")) {
+            result += 50;
+          } else if (str == ("sixty")) {
+            result += 60;
+          } else if (str == ("seventy")) {
+            result += 70;
+          } else if (str == ("eighty")) {
+            result += 80;
+          } else if (str == ("ninety")) {
+            result += 90;
+          } else if (str == "hundred") {
+            result *= 100;
+          } else if (str == ("thousand")) {
+            result *= 1000;
+            finalResult += result;
+            result = 0;
+          } else if (str == ("million")) {
+            result *= 1000000;
+            finalResult += result;
+            result = 0;
+          } else if (str == ("billion")) {
+            result *= 1000000000;
+            finalResult += result;
+            result = 0;
+          } else if (str == ("trillion")) {
+            result *= 1000000000000;
+            finalResult += result;
+            result = 0;
+          }
+        }
+
+        finalResult += result;
+        result = 0;
+        // System.out.println(finalResult);
+
+        print("preCheck --> $finalResult");
+      }
+    }
+    print("$finalResult");
+    return finalResult.toString();
+    // return String.valueOf((finalResult));
   }
+
 
   void share() {
     String textToShare =

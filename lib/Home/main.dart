@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:number_to_word/number_spellings.dart';
-import 'package:number_to_word/word_to_number_converter.dart';
-import 'one_to_ten.dart';
+import 'package:number_to_word/NumberSpelling/number_spellings.dart';
+import 'package:number_to_word/Roman%20Number/roman_numbers.dart';
+import 'package:number_to_word/Word%20To%20Number/word_to_number_converter.dart';
+import '../Even Odd/even_odd_numbers.dart';
+import '../NumberSpelling/one_to_ten.dart';
 import 'home_screen.dart';
-import 'number_to_word_converter.dart';
-import 'one_two_three.dart';
+import '../Number To Word/number_to_word_converter.dart';
+import '../One Two Three/one_two_three.dart';
 
 
 void main() {
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(),
         '/numberToWord': (context) => const NumberToWordConverterScreen(),
         '/wordToNumber': (context) => const WordToNumberConverterScreen(),
+        '/romanNumbers': (context) => const RomanNumbers(),
+        '/evenOddNumber': (context) => const EvenOddNumber(),
         '/onetwothree': (context) => const OneTwoThreeScreen(),
         '/Numberspellings': (context) => const NumberSpellings(),
         '/oneToten': (context) => const OneToTen(),

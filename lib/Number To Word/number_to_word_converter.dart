@@ -192,7 +192,7 @@ class _NumberToWordConverterScreenState
                       onResult: (result){
                         setState(() {
                           text = result.recognizedWords;
-                          _numberController.text = text;
+                          _numberController.text = text.trim();
                         });
                       }
                   );

@@ -36,6 +36,26 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, '/evenOddNumber');
+                },
+                style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
+                child: const Text('Even Odd Number'),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/romanNumbers');
+                },
+                style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
+                child: const Text('Roman Numbers'),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
                   Navigator.pushNamed(context, '/onetwothree');
                 },
                 style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),

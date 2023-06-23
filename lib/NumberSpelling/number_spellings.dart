@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:number_to_word/dynamic_speaker.dart';
+import 'package:number_to_word/NumberSpelling/dynamic_speaker.dart';
 
-void main() {
-  runApp(const NumberSpellings());
-}
+// void main() {
+//   runApp(const NumberSpellings());
+// }
 
 class NumberSpellings extends StatelessWidget {
   const NumberSpellings({super.key});
