@@ -4,12 +4,13 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
 
 double timeLapse = 1.0;
+//ignore: must_be_immutable
 class EvenOdd extends StatefulWidget {
   final int initialValue;
   final int finalValue;
-  final int currentNumber;
-  final int showInt;
-  const EvenOdd({super.key, required this.initialValue, required this.finalValue, required this.currentNumber, required this.showInt});
+  late int currentNumber;
+  late int showInt;
+  EvenOdd({super.key, required this.initialValue, required this.finalValue, required this.currentNumber, required this.showInt});
 
   @override
   State<EvenOdd> createState() => _EvenOddState();
@@ -18,13 +19,6 @@ class EvenOdd extends StatefulWidget {
 class _EvenOddState extends State<EvenOdd> {
   @override
   Widget build(BuildContext context) {
-    Future openDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Volume(),
-          );
-        });
     Future OpenDialog() => showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -32,6 +26,14 @@ class _EvenOddState extends State<EvenOdd> {
             child: Timelapse(),
           );
         });
+    Future pressVolume() => showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const Dialog(
+            child: Volume(),
+          );
+        });
+
 
     return Scaffold(
       appBar: AppBar(
@@ -39,15 +41,6 @@ class _EvenOddState extends State<EvenOdd> {
       ),
       floatingActionButton:
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: () {
-            openDialog();
-            setState(() {});
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        ),
         const SizedBox(
           height: 10,
         ),
@@ -58,13 +51,24 @@ class _EvenOddState extends State<EvenOdd> {
           },
           tooltip: "Time Lapse",
           child: const Icon(Icons.timer),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        FloatingActionButton(
+          heroTag: "btn1",
+          onPressed: () {
+            pressVolume();
+          },
+          tooltip: "Volume Control",
+          child: const Icon(Icons.volume_up),
         )
       ]),
       body: EvenOddNumberPage(initialValue: widget.initialValue, finalValue: widget.finalValue, currentNumber: widget.currentNumber, showInt: widget.showInt,),
     );
   }
 }
-
+//ignore: must_be_immutable
 class EvenOddNumberPage extends StatefulWidget {
   final int initialValue;
   final int finalValue;
@@ -135,7 +139,7 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
   void _restartCounting() {
     stopPronouncing();
     setState(() {
-      widget.showInt = widget.initialValue;
+      widget.showInt = widget.initialValue + 1;
       widget.currentNumber = widget.initialValue-1;
     });
   }
@@ -258,11 +262,11 @@ class _TimelapseState extends State<Timelapse> {
               onChanged: (value) {
                 setState(() {
                   timeLapse = value;
-                  if (numberPageState._timer != null &&
-                      numberPageState._timer!.isActive) {
-                    numberPageState._timer!.cancel();
-                    numberPageState.startPronouncing();
-                  }
+                  // if (numberPageState._timer != null &&
+                  //     numberPageState._timer!.isActive) {
+                  //   numberPageState._timer!.cancel();
+                  //   numberPageState.startPronouncing();
+                  // }
                 });
               }),
         ],

@@ -21,43 +21,6 @@ class _WordToNumberConverterScreenState
   late final TextEditingController _wordController = TextEditingController();
   var isListening = false;
   String _numberOutput = "";
-/*  Map<String, BigInt> wordToNumberMap = {
-    'zero': BigInt.from(0),
-    'one': BigInt.from(1),
-    'two': BigInt.from(2),
-    'three': BigInt.from(3),
-    'four': BigInt.from(4),
-    'five': BigInt.from(5),
-    'six': BigInt.from(6),
-    'seven': BigInt.from(7),
-    'eight': BigInt.from(8),
-    'nine': BigInt.from(9),
-    'ten': BigInt.from(10),
-    'eleven': BigInt.from(11),
-    'twelve': BigInt.from(12),
-    'thirteen': BigInt.from(13),
-    'fourteen': BigInt.from(14),
-    'fifteen': BigInt.from(15),
-    'sixteen': BigInt.from(16),
-    'seventeen': BigInt.from(17),
-    'eighteen': BigInt.from(18),
-    'nineteen': BigInt.from(19),
-    'twenty': BigInt.from(20),
-    'thirty': BigInt.from(30),
-    'forty': BigInt.from(40),
-    'fifty': BigInt.from(50),
-    'sixty': BigInt.from(60),
-    'seventy': BigInt.from(70),
-    'eighty': BigInt.from(80),
-    'ninety': BigInt.from(90),
-    'hundred': BigInt.from(100),
-    'thousand': BigInt.from(1000),
-    'million': BigInt.from(1000000),
-    'billion': BigInt.from(1000000000),
-    'trillion': BigInt.from(1000000000000),
-    'quadrillion': BigInt.from(1000000000000000),
-    'quintillion': BigInt.from(1000000000000000000),
-  };*/
 
   void convertWordToNumber() {
     String word = _wordController.text.toLowerCase();
@@ -67,90 +30,6 @@ class _WordToNumberConverterScreenState
       _numberOutput = number;
     });
   }
-
-  /*String convertLongWordToNumber(String word) {
-    List<String> chunks = word.split(' ');
-    BigInt number = BigInt.zero;
-    chunks.remove("and");
-
-    for (String chunk in chunks) {
-      if (wordToNumberMap.containsKey(chunk)) {
-      } else {
-        return "Invalid input: '$chunk'";
-      }
-    }
-
-    for (int i = 0; i < chunks.length; i++) {
-      if(chunks[i] == "hundred"){
-        for(i; i < chunks.length; i++){
-          if (chunks[i] == "billion" ||
-              chunks[i] == "million" ||
-              chunks[i] == "thousand"){
-            if(chunks[i-1] == "hundred"){
-              number = number + wordToNumberMap[chunks[i-2]]! * wordToNumberMap[chunks[i-1]]!;
-            }
-            if(chunks[i-2] == "hundred"){
-              BigInt? value = wordToNumberMap[chunks[i-3]]! * wordToNumberMap[chunks[i-2]]!;
-              number = value + wordToNumberMap[chunks[i-1]]!;
-            }
-            if(chunks[i-3] == "hundred"){
-              BigInt? value = wordToNumberMap[chunks[i-4]]! * wordToNumberMap[chunks[i-3]]!;
-              number = value + wordToNumberMap[chunks[i-2]]! + wordToNumberMap[chunks[i-1]]!;
-            }
-          }
-        }
-      }
-      if (chunks[i] == "billion" ||
-          chunks[i] == "million" ||
-          chunks[i] == "thousand" ||
-          chunks[i] == "hundred") {
-        if (i - 2 >= 0) {
-          if (chunks[i - 2] == "billion" ||
-              chunks[i - 2] == "million" ||
-              chunks[i - 2] == "thousand" ||
-              chunks[i - 2] == "hundred") {
-            number = number +
-                (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
-            print("1  $number");
-          } else {
-            BigInt? value = wordToNumberMap[chunks[i - 2]]! +
-                wordToNumberMap[chunks[i - 1]]!;
-            print("2  $value");
-            number = number + (value * wordToNumberMap[chunks[i]]!);
-            print("3  $number");
-          }
-        } else {
-          number = number +
-              (wordToNumberMap[chunks[i - 1]]! * wordToNumberMap[chunks[i]]!);
-          print("3  $number");
-        }
-      } else if (i == chunks.length - 1) {
-        if (i - 2 >= 0) {
-          if (chunks[i - 2] == "billion" ||
-              chunks[i - 2] == "million" ||
-              chunks[i - 2] == "thousand" ||
-              chunks[i - 2] == "hundred") {
-            number = number +
-                wordToNumberMap[chunks[i - 1]]! +
-                (wordToNumberMap[chunks[i]]!);
-          } else {
-            number = number + (wordToNumberMap[chunks[i]]!);
-          }
-        } else {
-          if (i - 1 >= 0) {
-            number = number +
-                (wordToNumberMap[chunks[i - 1]]!) +
-                (wordToNumberMap[chunks[i]]!);
-          } else {
-            number = number + (wordToNumberMap[chunks[i]]!);
-          }
-        }
-      }
-    }
-
-    return number.toString();
-  }*/
-
 
   String Words2Numbers(String string) {
     bool isValidInput = true;
@@ -258,14 +137,9 @@ class _WordToNumberConverterScreenState
 
         finalResult += result;
         result = 0;
-        // System.out.println(finalResult);
-
-        print("preCheck --> $finalResult");
       }
     }
-    print("$finalResult");
     return finalResult.toString();
-    // return String.valueOf((finalResult));
   }
 
 

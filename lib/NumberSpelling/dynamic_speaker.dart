@@ -4,6 +4,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
 import '../Additional/constants.dart';
 import 'one_to_ten.dart';
+import 'package:flutter/services.dart';
 
 class DynamicSpeaker extends StatefulWidget {
   final int initialValue;
@@ -24,13 +25,6 @@ class DynamicSpeaker extends StatefulWidget {
 class _DynamicSpeakerState extends State<DynamicSpeaker> {
   @override
   Widget build(BuildContext context) {
-    Future openDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Volume(),
-          );
-        });
     Future OpenDialog() => showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -42,6 +36,13 @@ class _DynamicSpeakerState extends State<DynamicSpeaker> {
                 currentInt: widget.currentInt),
           );
         });
+    Future PressVolume() => showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Volume(),
+          );
+        });
 
     return Scaffold(
       appBar: AppBar(
@@ -49,15 +50,6 @@ class _DynamicSpeakerState extends State<DynamicSpeaker> {
       ),
       floatingActionButton:
           Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: () {
-            openDialog();
-            setState(() {});
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        ),
         const SizedBox(
           height: 10,
         ),
@@ -68,6 +60,16 @@ class _DynamicSpeakerState extends State<DynamicSpeaker> {
           },
           tooltip: "Time Lapse",
           child: const Icon(Icons.timer),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        FloatingActionButton(
+          onPressed: () {
+            PressVolume();
+          },
+          tooltip: "Volume Control",
+          child: const Icon(Icons.volume_up),
         )
       ]),
       body: DynamicNumberPage(
@@ -79,11 +81,12 @@ class _DynamicSpeakerState extends State<DynamicSpeaker> {
   }
 }
 
+//ignore: must_be_immutable
 class DynamicNumberPage extends StatefulWidget {
   final int initialValue;
   final int finalValue;
-  late  int showInt;
-  late  int currentInt;
+  late int showInt;
+  late int currentInt;
   DynamicNumberPage(
       {super.key,
       required this.initialValue,
@@ -97,7 +100,6 @@ class DynamicNumberPage extends StatefulWidget {
 
 class DynamicNumberPageState extends State<DynamicNumberPage>
     with SingleTickerProviderStateMixin {
-
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
@@ -172,7 +174,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     stopPronouncing();
     setState(() {
       widget.showInt = widget.initialValue;
-      widget.currentInt = widget.initialValue-1;
+      widget.currentInt = widget.initialValue - 1;
     });
   }
 
@@ -298,8 +300,8 @@ class DynamicTimelapseState extends State<DynamicTimelapse> {
           ),
           Slider(
               value: timeLapse,
-              min: 2,
-              max: 6,
+              min: 3,
+              max: 7,
               divisions: 4,
               label: (timeLapse).toString(),
               onChanged: (value) {
@@ -308,7 +310,8 @@ class DynamicTimelapseState extends State<DynamicTimelapse> {
                   if (dynamicNumberPageState._timer != null &&
                       dynamicNumberPageState._timer!.isActive) {
                     dynamicNumberPageState._timer!.cancel();
-                    dynamicNumberPageState.startPronouncing(widget.initialValue, widget.finalValue);
+                    dynamicNumberPageState.startPronouncing(
+                        widget.initialValue, widget.finalValue);
                   }
                 });
               }),

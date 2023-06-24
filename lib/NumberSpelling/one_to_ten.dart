@@ -5,7 +5,7 @@ import 'package:number_to_word/Additional/volume.dart';
 
 import '../Additional/constants.dart';
 
-double timeLapse = 2.0;
+double timeLapse = 3.0;
 
 class OneToTen extends StatefulWidget {
   const OneToTen({super.key});

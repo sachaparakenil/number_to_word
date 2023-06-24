@@ -9,7 +9,7 @@ class EvenOddNumber extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Even Odd Number"),
+        title: const Text("Even Odd Number Pronouncer"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -20,7 +20,7 @@ class EvenOddNumber extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EvenOdd(initialValue: 1, finalValue: 100, showInt: 1, currentNumber: 0,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EvenOdd(initialValue: 1, finalValue: 100, showInt: 2, currentNumber: 0,)));
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(250, 50),),
@@ -31,7 +31,7 @@ class EvenOddNumber extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EvenOdd(initialValue: 0, finalValue: 99, showInt: 0, currentNumber: -1,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EvenOdd(initialValue: 0, finalValue: 99, showInt: 1, currentNumber: -1,)));
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(250, 50),),
