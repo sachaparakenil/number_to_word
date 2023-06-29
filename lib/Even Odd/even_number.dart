@@ -4,13 +4,19 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
 
 double timeLapse = 1.0;
+
 //ignore: must_be_immutable
 class EvenOdd extends StatefulWidget {
   final int initialValue;
   final int finalValue;
   late int currentNumber;
   late int showInt;
-  EvenOdd({super.key, required this.initialValue, required this.finalValue, required this.currentNumber, required this.showInt});
+  EvenOdd(
+      {super.key,
+      required this.initialValue,
+      required this.finalValue,
+      required this.currentNumber,
+      required this.showInt});
 
   @override
   State<EvenOdd> createState() => _EvenOddState();
@@ -34,47 +40,53 @@ class _EvenOddState extends State<EvenOdd> {
           );
         });
 
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Even Odd Number Pronouncer"),
+        leading: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Container(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  width: 30,
+                  height: 30,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // onPressed: () => Navigator.of(context).pop(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(''),
       ),
-      floatingActionButton:
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          heroTag: "btn2",
-          onPressed: () {
-            OpenDialog();
-          },
-          tooltip: "Time Lapse",
-          child: const Icon(Icons.timer),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: () {
-            pressVolume();
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        )
-      ]),
-      body: EvenOddNumberPage(initialValue: widget.initialValue, finalValue: widget.finalValue, currentNumber: widget.currentNumber, showInt: widget.showInt,),
+      body: EvenOddNumberPage(
+        initialValue: widget.initialValue,
+        finalValue: widget.finalValue,
+        currentNumber: widget.currentNumber,
+        showInt: widget.showInt,
+      ),
     );
   }
 }
+
 //ignore: must_be_immutable
 class EvenOddNumberPage extends StatefulWidget {
   final int initialValue;
   final int finalValue;
   late int currentNumber;
   late int showInt;
-  EvenOddNumberPage({super.key, required this.initialValue, required this.finalValue, required this.currentNumber, required this.showInt});
+  EvenOddNumberPage(
+      {super.key,
+      required this.initialValue,
+      required this.finalValue,
+      required this.currentNumber,
+      required this.showInt});
 
   @override
   _EvenOddNumberPageState createState() => _EvenOddNumberPageState();
@@ -85,8 +97,8 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  // late AnimationController _animationController;
+  // late Animation<double> _animation;
   // double timeLap = 1;
 
   void togglePronouncing() {
@@ -140,7 +152,7 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
     stopPronouncing();
     setState(() {
       widget.showInt = widget.initialValue + 1;
-      widget.currentNumber = widget.initialValue-1;
+      widget.currentNumber = widget.initialValue - 1;
     });
   }
 
@@ -154,6 +166,22 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
     });
   }
 
+  Future OpenDialog() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Timelapse(),
+        );
+      });
+
+  Future pressVolume() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Volume(),
+        );
+      });
+
   @override
   void initState() {
     super.initState();
@@ -161,70 +189,150 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
     flutterTts.setVolume(0.5);
     flutterTts.setLanguage("en-US");
     isPronouncing = false;
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+    // _animationController = AnimationController(
+    //   duration: const Duration(milliseconds: 500),
+    //   vsync: this,
+    // );
+    // _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
+    // _animationController.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     _animationController.reverse();
+    //   }
+    // });
   }
 
   @override
   void dispose() {
     flutterTts.stop();
     _timer?.cancel();
-    _animationController.dispose();
+    // _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        color: isPronouncing ? Colors.yellow : Colors.orangeAccent,
-        curve: Curves.easeInOut,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedBuilder(
-                animation: _animationController,
-                builder: (BuildContext context, Widget? child) {
-                  return Opacity(
-                    opacity: _animation.value,
-                    child: Text(
-                      widget.showInt.toString(),
-                      style: const TextStyle(fontSize: 150),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 16.0),
+                SafeArea(
+                  child: Container(
+                    height: 90,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("ODD EVEN",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                  color: Colors.white)),
+                          Text("Numbers",
+                              style: const TextStyle(
+                                  fontSize: 30, color: Colors.white))
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+
+            Container(
+              margin: EdgeInsets.all(20),
+              width: 250,
+              height: 250,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+              child: Center(
+                child: Text(
+                  widget.showInt.toString(),
+                  style: const TextStyle(fontSize: 120),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Container(
+              padding: EdgeInsets.only(right: 50, left: 50),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          togglePronouncing();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                        ),
+                        child: Image.asset(
+                            isPronouncing
+                                ? 'assets/images/pause.png'
+                                : 'assets/images/play.png',
+                            fit: BoxFit.contain),
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  Container(
+                    child: Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        child: ElevatedButton(
+                          onPressed: _restartCounting,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(170, 50)),
+                          child: Image.asset('assets/images/reset.png',
+                              fit: BoxFit.contain),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          OpenDialog();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(170, 50)),
+                        child: Image.asset('assets/images/interval.png',
+                            fit: BoxFit.contain),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          pressVolume();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(170, 50)),
+                        child: Image.asset('assets/images/volume.png',
+                            fit: BoxFit.contain),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  togglePronouncing();
-                  if (isPronouncing) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reset();
-                  }
-                },
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: Text(isPronouncing ? 'Stop' : 'Start'),
-              ),
-              const SizedBox(height: 10.0),
-              ElevatedButton(
-                onPressed: _restartCounting,
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: const Text('Restart'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

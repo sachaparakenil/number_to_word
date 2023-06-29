@@ -265,6 +265,10 @@ class _TimelapseState extends State<Timelapse> {
                   }
                 });
               }),
+          const Text(
+            "Press stop and then start to reflect change",
+            style: TextStyle(fontSize: 13),
+          ),
         ],
       ),
     );

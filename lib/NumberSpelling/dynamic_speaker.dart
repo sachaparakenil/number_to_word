@@ -39,7 +39,7 @@ class _DynamicSpeakerState extends State<DynamicSpeaker> {
     Future PressVolume() => showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
+          return const Dialog(
             child: Volume(),
           );
         });
@@ -139,15 +139,9 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     _timer = Timer.periodic(Duration(seconds: timeLapse.toInt()), (timer) {
       setState(() {
         if (widget.currentInt < finalValue) {
-          // print("1 ${_currentNumber} and ${showint}");
           pronounceNumber(widget.currentInt);
-          // print("2 ${_currentNumber} and ${showint}");
-
           widget.currentInt++;
-          // print("3 ${_currentNumber} and ${showint}");
-
           widget.showInt = widget.currentInt;
-          // print("4 ${_currentNumber} and ${showint}");
         } else {
           stopPronouncing();
         }
@@ -195,33 +189,33 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     flutterTts.setVolume(0.5);
     flutterTts.setLanguage("en-US");
     isPronouncing = false;
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+    // _animationController = AnimationController(
+    //   duration: const Duration(milliseconds: 500),
+    //   vsync: this,
+    // );
+    // _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
+    // _animationController.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     _animationController.reverse();
+    //   }
+    // });
   }
 
   @override
   void dispose() {
     flutterTts.stop();
-    _timer?.cancel();
-    _animationController.dispose();
+    // _timer?.cancel();
+    // _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
+      body: Container(
+        // duration: const Duration(milliseconds: 500),
         color: isPronouncing ? Colors.yellow : Colors.orangeAccent,
-        curve: Curves.easeInOut,
+        // curve: Curves.easeInOut,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
