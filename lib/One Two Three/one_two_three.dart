@@ -35,32 +35,30 @@ class _OneTwoThreeScreenState extends State<OneTwoThreeScreen> {
         });
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Number Pronouncer"),
+        leading: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Container(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  width: 30,
+                  height: 30,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // onPressed: () => Navigator.of(context).pop(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(''),
       ),
-      floatingActionButton:
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: () {
-            openDialog();
-            setState(() {});
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          heroTag: "btn2",
-          onPressed: () {
-            OpenDialog();
-          },
-          tooltip: "Time Lapse",
-          child: const Icon(Icons.timer),
-        )
-      ]),
       body: const NumberPage(),
     );
   }
@@ -81,8 +79,8 @@ class _NumberPageState extends State<NumberPage>
   bool isPronouncing = false;
   Timer? _timer;
   // double timeLapse = 1.0;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  /*late AnimationController _animationController;
+  late Animation<double> _animation;*/
   double timeLap = 1;
 
   void togglePronouncing() {
@@ -150,6 +148,21 @@ class _NumberPageState extends State<NumberPage>
     });
   }
 
+  Future pressVolume() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Volume(),
+        );
+      });
+  Future OpenDialog() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Timelapse(),
+        );
+      });
+
   @override
   void initState() {
     super.initState();
@@ -157,70 +170,135 @@ class _NumberPageState extends State<NumberPage>
     flutterTts.setVolume(0.5);
     flutterTts.setLanguage("en-US");
     isPronouncing = false;
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
   }
 
   @override
   void dispose() {
     flutterTts.stop();
     _timer?.cancel();
-    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        color: isPronouncing ? Colors.yellow : Colors.orangeAccent,
-        curve: Curves.easeInOut,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedBuilder(
-                animation: _animationController,
-                builder: (BuildContext context, Widget? child) {
-                  return Opacity(
-                    opacity: _animation.value,
-                    child: Text(
-                      showint.toString(),
-                      style: const TextStyle(fontSize: 150),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 16.0),
+                SafeArea(
+                  child: Container(
+                    height: 90,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("NUMBER",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                  color: Colors.white)),
+                          Text("Pronouncer",
+                              style: const TextStyle(
+                                  fontSize: 30, color: Colors.white))
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.all(20),
+              width: 170,
+              height: 170,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+              child: Center(
+                child: Text(
+                  showint.toString(),
+                  style: const TextStyle(fontSize: 70),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Container(
+              // padding: EdgeInsets.only(right: 70, left: 70),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: IconButton(
+                        onPressed: () {
+                          togglePronouncing();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: CircleBorder()),
+                        icon: Image.asset(
+                            isPronouncing
+                                ? 'assets/images/pause.png'
+                                : 'assets/images/play.png',
+                            fit: BoxFit.contain),
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        // shape: BoxShape.circle,
+                        color: Color(0xff101432)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              onPressed: _restartCounting,
+                              icon: Image.asset('assets/images/reset.png',
+                                  fit: BoxFit.contain)),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              OpenDialog();
+                            },
+                            icon: Image.asset('assets/images/interval.png',
+                                fit: BoxFit.contain),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+
+                          IconButton(
+                            onPressed: () {
+                              pressVolume();
+                            },
+                            icon: Image.asset('assets/images/volume.png',
+                                fit: BoxFit.contain),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  togglePronouncing();
-                  if (isPronouncing) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reset();
-                  }
-                },
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: Text(isPronouncing ? 'Stop' : 'Start'),
-              ),
-              const SizedBox(height: 10.0),
-              ElevatedButton(
-                onPressed: _restartCounting,
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: const Text('Restart'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

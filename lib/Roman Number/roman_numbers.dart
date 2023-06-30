@@ -1,157 +1,433 @@
 import 'package:flutter/material.dart';
 import 'package:number_to_word/Roman%20Number/roman_range_wise.dart';
 
-class RomanNumbers extends StatelessWidget {
-  const RomanNumbers({super.key});
+class MyButtonColumn extends StatelessWidget {
+  const MyButtonColumn({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Roman Numbers"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1 TO 200'),
+        leading: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Container(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  width: 30,
+                  height: 30,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 201, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: Title(
-                    color: Colors.blue,
-                    child: const Text('201 TO 400'),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 401, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('401 TO 600'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 601, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('601 TO 800'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 801, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('801 TO 1000'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1001, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1001 TO 1200'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1201, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1201 TO 1400'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1401, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1401 TO 1600'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1601, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1601 TO 1800'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const RomanRange(initialValue: 1801, finalValue: 200,)));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(250, 50),
-                  ),
-                  child: const Text('1801 TO 2000'),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-            ],
+            ),
           ),
+        ),
+        // onPressed: () => Navigator.of(context).pop(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(''),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
+        ),
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 16.0),
+                      SafeArea(
+                        child: Container(
+                          height: 90,
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("ROMAN",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                        color: Colors.white)),
+                                Text(" Numbers",
+                                    style: const TextStyle(
+                                        fontSize: 30, color: Colors.white))
+                              ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1-200",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 201,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "201-400",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 401,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "401-600",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 601,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "601-800",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 801,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "801-1000",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1001,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1001-1200",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1201,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1201-1400",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1401,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1401-1600",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1601,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1601-1800",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const RomanRange(
+                                            initialValue: 1801,
+                                            finalValue: 200,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .white, // Set the background color to white
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set a circular border radius
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "1801-2000",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        20), // Set the text color to black
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

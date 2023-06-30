@@ -19,6 +19,7 @@ class _WordToNumberConverterScreenState
   SpeechToText speechToText = SpeechToText();
   String text = "";
   bool _validate = false;
+  final FocusNode _focusNode = FocusNode();
   late FlutterTts flutterTts;
   late final TextEditingController _wordController = TextEditingController();
   var isListening = false;
@@ -45,6 +46,40 @@ class _WordToNumberConverterScreenState
     setState(() {
       _numberOutput = number;
     });
+    if (_validate) {
+      if (!(_invalid == " ")){
+      print("Alert box");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(child: Text('Error')),
+            content: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey, // Set your desired background color
+                borderRadius:
+                BorderRadius.circular(10.0), // Set the circular radius
+              ),
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                _invalid ?? 'Unknown error',
+                style: TextStyle(
+                  color: Colors.white, // Set the text color
+                  fontSize: 16.0, // Set the font size
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('OK', style: TextStyle(color: Colors.redAccent)),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }}
   }
 
   String Words2Numbers(String string) {
@@ -222,6 +257,7 @@ class _WordToNumberConverterScreenState
   void dispose() {
     _wordController.dispose();
     super.dispose();
+    _focusNode.dispose();
   }
 
   @override
@@ -331,14 +367,14 @@ class _WordToNumberConverterScreenState
               ),
               Stack(
                 children: [
-                  Align(
+                  /*Align(
                     alignment: AlignmentDirectional.topCenter,
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 30),
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: (TextField(
                         controller: _wordController,
-                        maxLines: 2,
+                        maxLines: 1,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           errorBorder: OutlineInputBorder(
@@ -346,11 +382,11 @@ class _WordToNumberConverterScreenState
                                 BorderSide(width: 1, color: Colors.white),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          /*focusedBorder: OutlineInputBorder(
+                          *//*focusedBorder: OutlineInputBorder(
                           borderSide:
                           const BorderSide(width: 1, color: Colors.green),
                           borderRadius: BorderRadius.circular(10.0),
-                        ),*/
+                        ),*//*
                           enabledBorder: OutlineInputBorder(
                             borderSide:
                                 const BorderSide(width: 1, color: Colors.white),
@@ -359,14 +395,46 @@ class _WordToNumberConverterScreenState
                           filled: true,
                           fillColor: Colors.white,
                           hintText: 'Enter a word',
-                          errorText: _validate ? '$_invalid' : " ",
-                          errorStyle:
-                              TextStyle(color: Colors.purple, fontSize: 12),
+                          // errorText: _validate ? '$_invalid' : " ",
+                          *//*errorStyle:
+                              TextStyle(color: Colors.purple, fontSize: 12),*//*
                         ),
                         onChanged: (text) => setState(() => _wordController),
                       )),
                     ),
+                  ),*/
+                  Align(
+                    alignment: AlignmentDirectional.topCenter,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: TextField(
+                        focusNode: _focusNode,
+                        controller: _wordController,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1, color: Colors.white),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1, color: Colors.white),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(width: 1, color: Colors.white),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'Enter a word',
+                        ),
+                        onChanged: (text) => setState(() => _wordController),
+                      ),
+                    ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 60.0),
                     child: SingleChildScrollView(
@@ -403,7 +471,7 @@ class _WordToNumberConverterScreenState
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 65.0, top: 45),
+                      padding: const EdgeInsets.only(right: 65.0, top: 40),
                       child: IconButton(
                         icon: Image.asset('assets/images/convert_btn.png'),
                         iconSize: 80,

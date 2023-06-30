@@ -1,211 +1,212 @@
 String shownumber(int number) {
   switch (number) {
     case 0:
-      return 'zero';
+      return 'Zero';
     case 1:
-      return 'one';
+      return 'One';
     case 2:
-      return 'two';
+      return 'Two';
     case 3:
-      return 'three';
+      return 'Three';
     case 4:
-      return 'four';
+      return 'Four';
     case 5:
-      return 'five';
+      return 'Five';
     case 6:
-      return 'six';
+      return 'Six';
     case 7:
-      return 'seven';
+      return 'Seven';
     case 8:
-      return 'eight';
+      return 'Eight';
     case 9:
-      return 'nine';
+      return 'Nine';
     case 10:
-      return 'ten';
+      return 'Ten';
     case 11:
-      return 'eleven';
+      return 'Eleven';
     case 12:
-      return 'twelve';
+      return 'Twelve';
     case 13:
-      return 'thirteen';
+      return 'Thirteen';
     case 14:
-      return 'fourteen';
+      return 'Fourteen';
     case 15:
-      return 'fifteen';
+      return 'Fifteen';
     case 16:
-      return 'sixteen';
+      return 'Sixteen';
     case 17:
-      return 'seventeen';
+      return 'Seventeen';
     case 18:
-      return 'eighteen';
+      return 'Eighteen';
     case 19:
-      return 'nineteen';
+      return 'Nineteen';
     case 20:
-      return 'twenty';
+      return 'Twenty';
     case 21:
-      return 'twenty-one';
+      return 'Twenty-one';
     case 22:
-      return 'twenty-two';
+      return 'Twenty-two';
     case 23:
-      return 'twenty-three';
+      return 'Twenty-three';
     case 24:
-      return 'twenty-four';
+      return 'Twenty-four';
     case 25:
-      return 'twenty-five';
+      return 'Twenty-five';
     case 26:
-      return 'twenty-six';
+      return 'Twenty-six';
     case 27:
-      return 'twenty-seven';
+      return 'Twenty-seven';
     case 28:
-      return 'twenty-eight';
+      return 'Twenty-eight';
     case 29:
-      return 'twenty-nine';
+      return 'Twenty-nine';
     case 30:
-      return 'thirty';
+      return 'Thirty';
     case 31:
-      return 'thirty-one';
+      return 'Thirty-one';
     case 32:
-      return 'thirty-two';
+      return 'Thirty-two';
     case 33:
-      return 'thirty-three';
+      return 'Thirty-three';
     case 34:
-      return 'thirty-four';
+      return 'Thirty-four';
     case 35:
-      return 'thirty-five';
+      return 'Thirty-five';
     case 36:
-      return 'thirty-six';
+      return 'Thirty-six';
     case 37:
-      return 'thirty-seven';
+      return 'Thirty-seven';
     case 38:
-      return 'thirty-eight';
+      return 'Thirty-eight';
     case 39:
-      return 'thirty-nine';
+      return 'Thirty-nine';
     case 40:
-      return 'forty';
+      return 'Forty';
     case 41:
-      return 'forty-one';
+      return 'Forty-one';
     case 42:
-      return 'forty-two';
+      return 'Forty-two';
     case 43:
-      return 'forty-three';
+      return 'Forty-three';
     case 44:
-      return 'forty-four';
+      return 'Forty-four';
     case 45:
-      return 'forty-five';
+      return 'Forty-five';
     case 46:
-      return 'forty-six';
+      return 'Forty-six';
     case 47:
-      return 'forty-seven';
+      return 'Forty-seven';
     case 48:
-      return 'forty-eight';
+      return 'Forty-eight';
     case 49:
-      return 'forty-nine';
+      return 'Forty-nine';
     case 50:
-      return 'fifty';
+      return 'Fifty';
     case 51:
-      return 'fifty-one';
+      return 'Fifty-one';
     case 52:
-      return 'fifty-two';
+      return 'Fifty-two';
     case 53:
-      return 'fifty-three';
+      return 'Fifty-three';
     case 54:
-      return 'fifty-four';
+      return 'Fifty-four';
     case 55:
-      return 'fifty-five';
+      return 'Fifty-five';
     case 56:
-      return 'fifty-six';
+      return 'Fifty-six';
     case 57:
-      return 'fifty-seven';
+      return 'Fifty-seven';
     case 58:
-      return 'fifty-eight';
+      return 'Fifty-eight';
     case 59:
-      return 'fifty-nine';
+      return 'Fifty-nine';
     case 60:
-      return 'sixty';
+      return 'Sixty';
     case 61:
-      return 'sixty-one';
+      return 'Sixty-one';
     case 62:
-      return 'sixty-two';
+      return 'Sixty-two';
     case 63:
-      return 'sixty-three';
+      return 'Sixty-three';
     case 64:
-      return 'sixty-four';
+      return 'Sixty-four';
     case 65:
-      return 'sixty-five';
+      return 'Sixty-five';
     case 66:
-      return 'sixty-six';
+      return 'Sixty-six';
     case 67:
-      return 'sixty-seven';
+      return 'Sixty-seven';
     case 68:
-      return 'sixty-eight';
+      return 'Sixty-eight';
     case 69:
-      return 'sixty-nine';
+      return 'Sixty-nine';
     case 70:
-      return 'seventy';
+      return 'Seventy';
     case 71:
-      return 'seventy-one';
+      return 'Seventy-one';
     case 72:
-      return 'seventy-two';
+      return 'Seventy-two';
     case 73:
-      return 'seventy-three';
+      return 'Seventy-three';
     case 74:
-      return 'seventy-four';
+      return 'Seventy-four';
     case 75:
-      return 'seventy-five';
+      return 'Seventy-five';
     case 76:
-      return 'seventy-six';
+      return 'Seventy-six';
     case 77:
-      return 'seventy-seven';
+      return 'Seventy-seven';
     case 78:
-      return 'seventy-eight';
+      return 'Seventy-eight';
     case 79:
-      return 'seventy-nine';
+      return 'Seventy-nine';
     case 80:
-      return 'eighty';
+      return 'Eighty';
     case 81:
-      return 'eighty-one';
+      return 'Eighty-one';
     case 82:
-      return 'eighty-two';
+      return 'Eighty-two';
     case 83:
-      return 'eighty-three';
+      return 'Eighty-three';
     case 84:
-      return 'eighty-four';
+      return 'Eighty-four';
     case 85:
-      return 'eighty-five';
+      return 'Eighty-five';
     case 86:
-      return 'eighty-six';
+      return 'Eighty-six';
     case 87:
-      return 'eighty-seven';
+      return 'Eighty-seven';
     case 88:
-      return 'eighty-eight';
+      return 'Eighty-eight';
     case 89:
-      return 'eighty-nine';
+      return 'Eighty-nine';
     case 90:
-      return 'ninety';
+      return 'Ninety';
     case 91:
-      return 'ninety-one';
+      return 'Ninety-one';
     case 92:
-      return 'ninety-two';
+      return 'Ninety-two';
     case 93:
-      return 'ninety-three';
+      return 'Ninety-three';
     case 94:
-      return 'ninety-four';
+      return 'Ninety-four';
     case 95:
-      return 'ninety-five';
+      return 'Ninety-five';
     case 96:
-      return 'ninety-six';
+      return 'Ninety-six';
     case 97:
-      return 'ninety-seven';
+      return 'Ninety-seven';
     case 98:
-      return 'ninety-eight';
+      return 'Ninety-eight';
     case 99:
-      return 'ninety-nine';
+      return 'Ninety-nine';
     case 100:
-      return 'one hundred';
+      return 'One hundred';
     default:
       return '';
   }
 }
+
 
 
 String spellNumber(int number) {

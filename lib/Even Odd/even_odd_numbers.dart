@@ -67,61 +67,57 @@ class EvenOddNumber extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 25, left: 10, right: 5),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EvenOdd(
-                                        initialValue: 0,
-                                        finalValue: 99,
-                                        showInt: 1,
-                                        currentNumber: -1,
-                                      )));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              padding:
-                                  EdgeInsets.only(top: 30, right: 30, left: 30),
-                              child: Text(
-                                'ODD',
-                                style: GoogleFonts.roboto(
-                                  textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                padding: EdgeInsets.only(top: 10, bottom: 10),
-                                child: const Image(
-                                  image: AssetImage(
-                                    "assets/images/enter.png",
-                                  ),
-                                  width: 50,
-                                  height: 50,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                Container(
+                  padding: EdgeInsets.only(top: 25, left: 10, right: 5),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                  ],
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EvenOdd(
+                                    initialValue: 0,
+                                    finalValue: 99,
+                                    showInt: 1,
+                                    currentNumber: -1,
+                                  )));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding:
+                              EdgeInsets.only(top: 30, right: 30, left: 30),
+                          child: Text(
+                            'ODD',
+                            style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            child: const Image(
+                              image: AssetImage(
+                                "assets/images/enter.png",
+                              ),
+                              width: 50,
+                              height: 50,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 25, left: 5, right: 10),

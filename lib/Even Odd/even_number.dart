@@ -25,20 +25,6 @@ class EvenOdd extends StatefulWidget {
 class _EvenOddState extends State<EvenOdd> {
   @override
   Widget build(BuildContext context) {
-    Future OpenDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Timelapse(),
-          );
-        });
-    Future pressVolume() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Volume(),
-          );
-        });
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -241,11 +227,10 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                 ),
               ],
             ),
-
             Container(
               margin: EdgeInsets.all(20),
-              width: 250,
-              height: 250,
+              width: 170,
+              height: 170,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -253,33 +238,30 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
               child: Center(
                 child: Text(
                   widget.showInt.toString(),
-                  style: const TextStyle(fontSize: 120),
+                  style: const TextStyle(fontSize: 70),
                 ),
               ),
             ),
             const SizedBox(height: 20.0),
             Container(
-              padding: EdgeInsets.only(right: 50, left: 50),
+              // padding: EdgeInsets.only(right: 70, left: 70),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
+                  Container(
+                    decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: ElevatedButton(
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: IconButton(
                         onPressed: () {
                           togglePronouncing();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                        ),
-                        child: Image.asset(
+                            backgroundColor: Colors.white,
+                            shape: CircleBorder()),
+                        icon: Image.asset(
                             isPronouncing
                                 ? 'assets/images/pause.png'
                                 : 'assets/images/play.png',
@@ -287,45 +269,53 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 30,
+                  ),
                   Container(
-                    child: Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: ElevatedButton(
-                          onPressed: _restartCounting,
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(170, 50)),
-                          child: Image.asset('assets/images/reset.png',
-                              fit: BoxFit.contain),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          OpenDialog();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(170, 50)),
-                        child: Image.asset('assets/images/interval.png',
-                            fit: BoxFit.contain),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          pressVolume();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(170, 50)),
-                        child: Image.asset('assets/images/volume.png',
-                            fit: BoxFit.contain),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        // shape: BoxShape.circle,
+                        color: Color(0xff101432)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Row(
+                        children: [
+                          // Container(
+                          //   padding: EdgeInsets.only(left: 5),
+                          //   child: ElevatedButton(
+                          //     onPressed: _restartCounting,
+                          //     child: Image.asset('assets/images/reset.png',
+                          //         fit: BoxFit.contain),
+                          //   ),
+                          // ),
+                          IconButton(
+                              onPressed: _restartCounting,
+                              icon: Image.asset('assets/images/reset.png',
+                                  fit: BoxFit.contain)),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              OpenDialog();
+                            },
+                            icon: Image.asset('assets/images/interval.png',
+                                fit: BoxFit.contain),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+
+                          IconButton(
+                            onPressed: () {
+                              pressVolume();
+                            },
+                            icon: Image.asset('assets/images/volume.png',
+                                fit: BoxFit.contain),
+                          ),
+                        ],
                       ),
                     ),
                   ),

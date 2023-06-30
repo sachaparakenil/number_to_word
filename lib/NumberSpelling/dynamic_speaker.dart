@@ -4,7 +4,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
 import '../Additional/constants.dart';
 import 'one_to_ten.dart';
-import 'package:flutter/services.dart';
 
 class DynamicSpeaker extends StatefulWidget {
   final int initialValue;
@@ -25,53 +24,31 @@ class DynamicSpeaker extends StatefulWidget {
 class _DynamicSpeakerState extends State<DynamicSpeaker> {
   @override
   Widget build(BuildContext context) {
-    Future OpenDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: DynamicTimelapse(
-                initialValue: widget.initialValue,
-                finalValue: widget.finalValue,
-                showInt: widget.showInt,
-                currentInt: widget.currentInt),
-          );
-        });
-    Future PressVolume() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Volume(),
-          );
-        });
-
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Number Pronouncer"),
+        leading: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Container(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  width: 30,
+                  height: 30,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // onPressed: () => Navigator.of(context).pop(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(''),
       ),
-      floatingActionButton:
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          heroTag: "btn2",
-          onPressed: () {
-            OpenDialog();
-          },
-          tooltip: "Time Lapse",
-          child: const Icon(Icons.timer),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          onPressed: () {
-            PressVolume();
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        )
-      ]),
       body: DynamicNumberPage(
           initialValue: widget.initialValue,
           finalValue: widget.finalValue,
@@ -103,8 +80,8 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  // late AnimationController _animationController;
+  // late Animation<double> _animation;
   double timeLap = 2;
 
   // Future<void> speakNumber(String numberText) async {
@@ -182,6 +159,26 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     });
   }
 
+  Future OpenDialog() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: DynamicTimelapse(
+              initialValue: widget.initialValue,
+              finalValue: widget.finalValue,
+              showInt: widget.showInt,
+              currentInt: widget.currentInt),
+        );
+      });
+
+  Future PressVolume() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Dialog(
+          child: Volume(),
+        );
+      });
+
   @override
   void initState() {
     super.initState();
@@ -204,7 +201,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   @override
   void dispose() {
     flutterTts.stop();
-    // _timer?.cancel();
+    _timer?.cancel();
     // _animationController.dispose();
     super.dispose();
   }
@@ -213,43 +210,140 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // duration: const Duration(milliseconds: 500),
-        color: isPronouncing ? Colors.yellow : Colors.orangeAccent,
-        // curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
+        ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnimatedBuilder(
-                animation: _animationController,
-                builder: (BuildContext context, Widget? child) {
-                  return Opacity(
-                    opacity: _animation.value,
-                    child: Text(
-                      shownumber(widget.showInt).toString(),
-                      style: const TextStyle(fontSize: 70),
+              Row(
+                children: [
+                  const SizedBox(width: 16.0),
+                  SafeArea(
+                    child: Container(
+                      height: 90,
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("NUMBER",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: Colors.white)),
+                            Text(" Spelling",
+                                style: const TextStyle(
+                                    fontSize: 30, color: Colors.white))
+                          ]),
                     ),
-                  );
-                },
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                width: 190,
+                height: 170,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(widget.showInt.toString(),
+                          style: const TextStyle(
+                              fontSize: 45, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        shownumber(widget.showInt).toString(),
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  togglePronouncing();
-                  if (isPronouncing) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reset();
-                  }
-                },
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: Text(isPronouncing ? 'Stop' : 'Start'),
-              ),
-              const SizedBox(height: 10.0),
-              ElevatedButton(
-                onPressed: _restartCounting,
-                style: ElevatedButton.styleFrom(fixedSize: const Size(170, 50)),
-                child: const Text('Restart'),
+              const SizedBox(height: 20.0),
+              Container(
+                // padding: EdgeInsets.only(right: 70, left: 70),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: IconButton(
+                          onPressed: () {
+                            togglePronouncing();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: CircleBorder()),
+                          icon: Image.asset(
+                              isPronouncing
+                                  ? 'assets/images/pause.png'
+                                  : 'assets/images/play.png',
+                              fit: BoxFit.contain),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          // shape: BoxShape.circle,
+                          color: Color(0xff101432)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8),
+                        child: Row(
+                          children: [
+                            // Container(
+                            //   padding: EdgeInsets.only(left: 5),
+                            //   child: ElevatedButton(
+                            //     onPressed: _restartCounting,
+                            //     child: Image.asset('assets/images/reset.png',
+                            //         fit: BoxFit.contain),
+                            //   ),
+                            // ),
+                            IconButton(
+                                onPressed: _restartCounting,
+                                icon: Image.asset('assets/images/reset.png',
+                                    fit: BoxFit.contain)),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                OpenDialog();
+                              },
+                              icon: Image.asset('assets/images/interval.png',
+                                  fit: BoxFit.contain),
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+
+                            IconButton(
+                              onPressed: () {
+                                PressVolume();
+                              },
+                              icon: Image.asset('assets/images/volume.png',
+                                  fit: BoxFit.contain),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -15,7 +15,8 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(left: 16.0,top: 40.0,right: 16.0,bottom: 0),
+          padding: const EdgeInsets.only(
+              left: 16.0, top: 40.0, right: 16.0, bottom: 0),
           child: Row(
             children: [
               Image.asset(
@@ -24,61 +25,67 @@ class HomeScreen extends StatelessWidget {
                 height: 45.0,
               ),
               const Spacer(),
-              ClipOval(
-                child: Material(
-                  color: Colors.transparent,
-                  child: IconButton(
-                    onPressed: () {
-                      // Add functionality for the no_ad.png
-                    },
-                    icon: Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: Image.asset(
-                          'assets/images/no_ad.png',
-                          width: 40,
-                          height: 40,
+              Container(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.transparent,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 1.0,
                         ),
                       ),
                     ),
-                  ),
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/no_ad.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      onPressed: () {
+                        // Handle button tap
+                      },
+                    ),
+                  ],
                 ),
               ),
-              ClipOval(
-                child: Material(
-                  color: Colors.transparent,
-                  child: IconButton(
-                    onPressed: () {
-                      // Add functionality for the info.png
-                    },
-                    icon: Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.greenAccent,
-                          border: Border.all(
-                            color: Colors.greenAccent,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: Image.asset(
-                          'assets/images/info.png',
-                          width: 30,
-                          height: 30,
-                        ),
+
+              Container(
+                // margin: EdgeInsets.only(right: 10.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.greenAccent,
+                        /*border: Border.all(
+                          color: Colors.white,
+                          width: 1.0,
+                        ),*/
                       ),
                     ),
-                  ),
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/info.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      onPressed: () {
+                        // Handle button tap
+                      },
+                    ),
+                  ],
                 ),
               ),
+
             ],
           ),
         ),
@@ -104,12 +111,12 @@ class HomeScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(16),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 8, bottom: 0),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/numberToWord');
@@ -121,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -129,35 +136,43 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/numbers_word.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/numbers_word.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
                                       child: Column(
                                         children: [
                                           Text(
-                                            'Number to',
+                                            'Number',
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
                                           Text(
-                                            'Word',
+                                            'to Word',
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -170,11 +185,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // const SizedBox(width: 16.0),
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 8, bottom: 0),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/wordToNumber');
@@ -186,7 +200,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -194,15 +208,21 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/word_numbers.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/word_numbers.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
@@ -213,7 +233,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -222,7 +243,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -235,11 +257,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // const SizedBox(width: 16.0),
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(16),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 8, bottom: 0),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/evenOddNumber');
@@ -251,7 +272,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -259,15 +280,21 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/odd_even.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/odd_even.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
@@ -278,7 +305,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -287,7 +315,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -303,16 +332,15 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(16),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 4, bottom: 8),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/romanNumbers');
@@ -324,7 +352,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 3),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -332,15 +360,21 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/roman_digit.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/roman_digit.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
@@ -351,16 +385,18 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
                                           Text(
-                                            'Numbers',
+                                            'Number',
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -373,11 +409,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // const SizedBox(width: 16.0),
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 4, bottom: 8),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/onetwothree');
@@ -389,7 +424,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -397,15 +432,21 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/numbers.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/numbers.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
@@ -416,7 +457,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -425,7 +467,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -438,14 +481,14 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // const SizedBox(width: 16.0),
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            padding: EdgeInsets.all(16),
+                            padding: EdgeInsets.only(
+                                right: 8, left: 8, top: 4, bottom: 8),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/Numberspellings');
+                                Navigator.pushNamed(
+                                    context, '/Numberspellings');
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -454,7 +497,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 5),
+                                padding: EdgeInsets.all(15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -462,15 +505,21 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromRGBO(16,20,50, 1),
+                                        color:
+                                            const Color.fromRGBO(16, 20, 50, 1),
                                         border: Border.all(
-                                          color: const Color.fromRGBO(16,20,50, 1),
+                                          color: const Color.fromRGBO(
+                                              16, 20, 50, 1),
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: const Image(image: AssetImage("assets/images/spellings.png", ),
+                                      child: const Image(
+                                        image: AssetImage(
+                                          "assets/images/spellings.png",
+                                        ),
                                         width: 24,
-                                        height: 24,),
+                                        height: 24,
+                                      ),
                                     ),
                                     const SizedBox(height: 6.0),
                                     Center(
@@ -481,7 +530,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -490,7 +540,8 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 12,
+                                                fontSize: 9,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),

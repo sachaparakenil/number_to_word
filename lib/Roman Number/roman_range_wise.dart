@@ -71,6 +71,54 @@ class RomanNumberScreen extends StatelessWidget {
     );
   }
 
+  Widget buttonRow(List<String> buttonLabels) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Button action
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Set the background color to white
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0), // Set a circular border radius
+                ),
+              ),
+              child: Text(
+                buttonLabels[0],
+                style: TextStyle(color: Colors.black), // Set the text color to black
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Button action
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Set the background color to white
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0), // Set a circular border radius
+                ),
+              ),
+              child: Text(
+                buttonLabels[1],
+                style: TextStyle(color: Colors.black), // Set the text color to black
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
   String _toRomanNumber(int number) {
     final List<String> romanNumerals = [
       'I',
