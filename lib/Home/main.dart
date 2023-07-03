@@ -8,13 +8,17 @@ import '../splash.dart';
 import 'home_screen.dart';
 import '../Number To Word/number_to_word_converter.dart';
 import '../One Two Three/one_two_three.dart';
-
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp( MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Splash(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Splash(),
+      )));
 }
 
 class MyApp extends StatelessWidget {

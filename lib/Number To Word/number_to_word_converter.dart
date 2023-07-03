@@ -27,16 +27,24 @@ class _NumberToWordConverterScreenState
   String? get _errorText {
     final text = _numberController.value.text;
     if (text.isEmpty) {
-      return 'Can\'t be empty';
+      return 'Can\'t be empty!';
     }
     if (text.contains(" ")) {
-      return 'Can\'t Contain Space';
+      return 'Can\'t Contain Space!';
     }
     if (text.contains(".")) {
-      return 'Can\'t Contain Point';
+      return 'Can\'t Contain Point!';
+    }
+    if (text.contains("-")) {
+      return 'Can\'t Contain Hyphen!';
     }
     if (text.contains(RegExp(r'[a-z]'))) {
-      return "Can\'t Contain Word";
+      return "Can\'t Contain Word!";
+    }
+    if (!(text == "zero")) {
+      if (_convertedWord == "0") {
+        return "Unknown Error";
+      }
     }
     // return null if the text is valid
     return " ";
@@ -128,26 +136,47 @@ class _NumberToWordConverterScreenState
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Center(child: Text('Error')),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Center(child: Text('ERROR')),
+              titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
               content: Container(
+                height: 155,
                 decoration: BoxDecoration(
-                  color: Colors.grey, // Set your desired background color
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Set the circular radius
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  _errorText ?? 'Unknown error',
-                  style: TextStyle(
-                    color: Colors.white, // Set the text color
-                    fontSize: 16.0, // Set the font size
-                  ),
+                child: Column(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 80.0,
+                      icon: Image.asset(
+                        'assets/images/att.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    Text(
+                      _errorText ?? 'Unknown error',
+                      style: TextStyle(
+                          color: Colors.red, // Set the text color
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold // Set the font size
+                          ),
+                    ),
+                  ],
                 ),
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('OK', style: TextStyle(color: Colors.redAccent)),
+                  child: Text('OK',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
                 ),
               ],
             );
@@ -201,11 +230,11 @@ class _NumberToWordConverterScreenState
     String textToCopy =
         'Number: ${_numberController.text}\nWord: $_convertedWord';
     Clipboard.setData(ClipboardData(text: textToCopy));
-    ScaffoldMessenger.of(context).showSnackBar(
+    /*ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Copied to clipboard'),
       ),
-    );
+    );*/
   }
 
   void _shareNumberAndWord() {
@@ -221,8 +250,8 @@ class _NumberToWordConverterScreenState
 
   @override
   Widget build(BuildContext context) {
-    final double appBarHeight = AppBar().preferredSize.height;
-    final double topSpacing = 50.0;
+    /*final double appBarHeight = AppBar().preferredSize.height;
+    final double topSpacing = 50.0;*/
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -249,283 +278,198 @@ class _NumberToWordConverterScreenState
           elevation: 0,
           title: const Text(''),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const SizedBox(width: 16.0),
-                  SafeArea(
-                    child: Container(
-                      height: 90,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("NUMBER TO WORD",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: Colors.white)),
-                            Text("Converter",
-                                style: const TextStyle(
-                                    fontSize: 30, color: Colors.white))
-                          ]), /*Text(
-                        'NUMBER TO WORD',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white),
-                      ),*/
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 60),
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: CustomScrollView(slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/bg.png"),
+                      fit: BoxFit.fill),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 16.0),
+                        SafeArea(
+                          child: Container(
+                            height: 90,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("NUMBER TO WORD",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                          color: Colors.white)),
+                                  Text("Converter",
+                                      style: const TextStyle(
+                                          fontSize: 30, color: Colors.white))
+                                ]),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'Enter a Number',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                          TextField(
-                            controller: _numberController,
-                            keyboardType: TextInputType.number,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter here',
-                              hintStyle: TextStyle(fontSize: 20),
-                            ),
-                            onChanged: (text) => setState(() {}),
-                            style: TextStyle(fontSize: 40),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 110.0),
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.all(60),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 4),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          children: [
-                            Column(
+                    Stack(
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional.topCenter,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 60),
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.white,
+                            ),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Your Answer is",
-                                    style: TextStyle(fontSize: 18)),
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    _convertedWord,
-                                    style: GoogleFonts.roboto(
-                                      textStyle: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 22,
-                                      ),
-                                    ),
+                                Text(
+                                  'Enter a Number',
+                                  style: TextStyle(
+                                    fontSize: 18,
                                   ),
+                                ),
+                                TextField(
+                                  controller: _numberController,
+                                  keyboardType: TextInputType.number,
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    hintText: 'Enter here',
+                                    hintStyle: TextStyle(fontSize: 20),
+                                  ),
+                                  onChanged: (text) => setState(() {}),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 2),
-                            // Align(
-                            //   alignment: Alignment.center,
-                            //   child: Text(
-                            //     _convertedWord,
-                            //     style: GoogleFonts.roboto(
-                            //       textStyle: const TextStyle(
-                            //         color: Colors.black,
-                            //         fontSize: 22,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 65.0, top: 95),
-                      child: IconButton(
-                        icon: Image.asset('assets/images/convert_btn.png'),
-                        iconSize: 80,
-                        onPressed: () {
-                          setState(() {
-                            _errorText!.isEmpty
-                                ? _validate = false
-                                : _validate = true;
-                            // _numberController.text.contains(" ") ? _validate = true : _validate = false;
-                          });
-                          _validate ? _convertNumberToWord() : null;
-                        },
-                      ),
-                    ),
-                  ),
-                   Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 60.5),
-                      child: AvatarGlow(
-                        endRadius: 30,
-                        animate: isListening,
-                        duration: const Duration(milliseconds: 2000),
-                        glowColor: Colors.black,
-                        repeat: true,
-                        repeatPauseDuration:
-                            const Duration(milliseconds: 100),
-                        showTwoGlows: true,
-                        child: GestureDetector(
-                          onTapDown: (details) async {
-                            if (!isListening) {
-                              var available = await speechToText.initialize();
-                              if (available) {
-                                setState(() {
-                                  isListening = true;
-                                  speechToText.listen(onResult: (result) {
-                                    setState(() {
-                                      text = result.recognizedWords;
-                                      _numberController.text = text.trim();
-                                    });
-                                  });
-                                });
-                              }
-                            }
-                          },
-                          onTapUp: (details) {
-                            setState(() {
-                              isListening = false;
-                            });
-                            speechToText.stop();
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: Color.fromRGBO(30, 66, 200, 1),
-                            radius: 20,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Image.asset("assets/images/mic.png")),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-
-                  /*Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 65.0, top: 5),
-                        child: AvatarGlow(
-                          endRadius: 20.0,
-                          animate: isListening,
-                          duration: Duration(milliseconds: 2000),
-                          glowColor: Color.fromRGBO(30, 66, 200, 1),
-                          repeat: true,
-                          repeatPauseDuration: Duration(milliseconds: 100),
-                          showTwoGlows: true,
-                          child: GestureDetector(
-                            onTapDown: (details) async{
-                              if(!isListening){
-                                var available = await speechToText.initialize();
-                                if(available){
-                                  setState(() {
-                                    isListening =true;
-                                    speechToText.listen(
-                                      onResult: (result){
-                                        setState(() {
-                                          text = result.recognizedWords;
-                                          _numberController.text = text.trim();
-                                        });
-                                      }
-                                    );
-                                  });
-                                }
-                              }
-                            },
-                            onTapUp: (details){
-                              setState(() {
-                                isListening = false;
-                              });
-                              speechToText.stop();
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Color.fromRGBO(30, 66, 200, 1),
-                              radius: 35,
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Image.asset("assets/images/mic.png")),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 110.0),
+                          child: SingleChildScrollView(
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              margin: const EdgeInsets.all(60),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 4),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Your Answer is",
+                                          style: TextStyle(fontSize: 18)),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          _convertedWord,
+                                          style: GoogleFonts.roboto(
+                                            textStyle: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                ],
+                              ),
                             ),
                           ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(right: 65.0, top: 90),
+                            child: IconButton(
+                              icon:
+                                  Image.asset('assets/images/convert_btn.png'),
+                              iconSize: 80,
+                              onPressed: () {
+                                setState(() {
+                                  _errorText!.isEmpty
+                                      ? _validate = false
+                                      : _validate = true;
+                                  // _numberController.text.contains(" ") ? _validate = true : _validate = false;
+                                });
+                                _validate ? _convertNumberToWord() : null;
+                              },
+                            ),
                           ),
-
-                          *//*AvatarGlow(
-                              endRadius: 20.0,
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 60.5),
+                            child: AvatarGlow(
+                              endRadius: 30,
                               animate: isListening,
                               duration: const Duration(milliseconds: 2000),
                               glowColor: Colors.black,
                               repeat: true,
-                              repeatPauseDuration: const Duration(milliseconds: 100),
+                              repeatPauseDuration:
+                                  const Duration(milliseconds: 100),
                               showTwoGlows: true,
                               child: GestureDetector(
                                 onTapDown: (details) async {
                                   if (!isListening) {
-                                    var available = await speechToText.initialize();
+                                    var available =
+                                        await speechToText.initialize();
                                     if (available) {
                                       setState(() {
                                         isListening = true;
                                         speechToText.listen(onResult: (result) {
                                           setState(() {
                                             text = result.recognizedWords;
-                                            _numberController.text = text.trim();
+                                            _numberController.text =
+                                                text.trim();
                                           });
                                         });
                                       });
@@ -538,98 +482,113 @@ class _NumberToWordConverterScreenState
                                   });
                                   speechToText.stop();
                                 },
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Image.asset("assets/images/mic.png")),
-                              ),
-                            )*//*
-                        ),
-                      )*/
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 80.0, left: 80.0),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: SizedBox(
-                          // width: 256,
-                          height: 65,
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                            ),
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: _shareNumberAndWord,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/share.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: _copyToClipboard,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/copy.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: _clearInput,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/clear.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                      child: ElevatedButton(
-                                    onPressed: () => speak(
-                                        int.parse(_numberController.text)),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 171, 0, 1),
-                                      fixedSize: const Size(45, 45),
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/speak.png',
-                                      // fit: BoxFit.contain,
-                                    ),
-                                  )),
-                                ],
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                      Color.fromRGBO(30, 66, 200, 1),
+                                  radius: 20,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon:
+                                          Image.asset("assets/images/mic.png")),
+                                ),
                               ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 80.0, left: 80.0),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: SizedBox(
+                                // width: 256,
+                                height: 65,
+                                child: DecoratedBox(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Flexible(
+                                          child: ElevatedButton(
+                                            onPressed: _shareNumberAndWord,
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Colors.transparent),
+                                            ),
+                                            child: Image.asset(
+                                                'assets/images/share.png',
+                                                fit: BoxFit.contain),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: ElevatedButton(
+                                            onPressed: _copyToClipboard,
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Colors.transparent),
+                                            ),
+                                            child: Image.asset(
+                                                'assets/images/copy.png',
+                                                fit: BoxFit.contain),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: ElevatedButton(
+                                            onPressed: _clearInput,
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Colors.transparent),
+                                            ),
+                                            child: Image.asset(
+                                                'assets/images/clear.png',
+                                                fit: BoxFit.contain),
+                                          ),
+                                        ),
+                                        Flexible(
+                                            child: ElevatedButton(
+                                          onPressed: () => speak(int.parse(
+                                              _numberController.text)),
+                                          style: ElevatedButton.styleFrom(
+                                            shape: const CircleBorder(),
+                                            backgroundColor:
+                                                Color.fromRGBO(255, 171, 0, 1),
+                                            fixedSize: const Size(45, 45),
+                                          ),
+                                          child: Image.asset(
+                                            'assets/images/speak.png',
+                                            // fit: BoxFit.contain,
+                                          ),
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 16,
+                    )
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ]),
         ));
   }
 }

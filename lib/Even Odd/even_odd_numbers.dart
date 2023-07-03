@@ -85,6 +85,7 @@ class EvenOddNumber extends StatelessWidget {
                                     finalValue: 99,
                                     showInt: 1,
                                     currentNumber: -1,
+                                maintext: "ODD"
                                   )));
                     },
                     child: Column(
@@ -136,7 +137,7 @@ class EvenOddNumber extends StatelessWidget {
                                     initialValue: 1,
                                     finalValue: 100,
                                     showInt: 2,
-                                    currentNumber: 0,
+                                    currentNumber: 0, maintext: 'EVEN',
                                   )));
                     },
                     child: Column(

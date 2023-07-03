@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
 import '../Additional/constants.dart';
@@ -149,6 +150,17 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     });
   }
 
+  void _copyToClipboard() {
+    var spell = shownumber(widget.showInt);
+    String textToCopy = 'Number: ${widget.showInt.toString()}\nWord: $spell';
+    Clipboard.setData(ClipboardData(text: textToCopy));
+    /*ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Copied to clipboard'),
+      ),
+    );*/
+  }
+
   void update(double value) {
     setState(() {
       timeLapse = value;
@@ -162,6 +174,9 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   Future OpenDialog() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return Dialog(
           child: DynamicTimelapse(
               initialValue: widget.initialValue,
@@ -174,6 +189,9 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   Future PressVolume() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return const Dialog(
           child: Volume(),
         );
@@ -186,16 +204,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
     flutterTts.setVolume(0.5);
     flutterTts.setLanguage("en-US");
     isPronouncing = false;
-    // _animationController = AnimationController(
-    //   duration: const Duration(milliseconds: 500),
-    //   vsync: this,
-    // );
-    // _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    // _animationController.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     _animationController.reverse();
-    //   }
-    // });
   }
 
   @override
@@ -223,7 +231,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                   SafeArea(
                     child: Container(
                       height: 90,
-                      child: Row(
+                      child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("NUMBER",
@@ -231,7 +239,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                                     fontWeight: FontWeight.bold,
                                     fontSize: 30,
                                     color: Colors.white)),
-                            Text(" Spelling",
+                            Text("Spelling",
                                 style: const TextStyle(
                                     fontSize: 30, color: Colors.white))
                           ]),
@@ -305,17 +313,16 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                             horizontal: 12.0, vertical: 8),
                         child: Row(
                           children: [
-                            // Container(
-                            //   padding: EdgeInsets.only(left: 5),
-                            //   child: ElevatedButton(
-                            //     onPressed: _restartCounting,
-                            //     child: Image.asset('assets/images/reset.png',
-                            //         fit: BoxFit.contain),
-                            //   ),
-                            // ),
                             IconButton(
                                 onPressed: _restartCounting,
                                 icon: Image.asset('assets/images/reset.png',
+                                    fit: BoxFit.contain)),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            IconButton(
+                                onPressed: _copyToClipboard,
+                                icon: Image.asset('assets/images/copy.png',
                                     fit: BoxFit.contain)),
                             SizedBox(
                               width: 3,
@@ -330,7 +337,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                             SizedBox(
                               width: 3,
                             ),
-
                             IconButton(
                               onPressed: () {
                                 PressVolume();
@@ -378,31 +384,53 @@ class DynamicTimelapseState extends State<DynamicTimelapse> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 80,
-      height: 100,
+      height: 120,
       child: Column(
         children: [
           const SizedBox(height: 16.0),
           const Text(
-            "TimeLapse",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            "SET TIME-INTERVAL",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xff101432),
+                fontSize: 20),
           ),
-          Slider(
-              value: timeLapse,
-              min: 3,
-              max: 7,
-              divisions: 4,
-              label: (timeLapse).toString(),
-              onChanged: (value) {
-                setState(() {
-                  timeLapse = value;
-                  if (dynamicNumberPageState._timer != null &&
-                      dynamicNumberPageState._timer!.isActive) {
-                    dynamicNumberPageState._timer!.cancel();
-                    dynamicNumberPageState.startPronouncing(
-                        widget.initialValue, widget.finalValue);
-                  }
-                });
-              }),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              thumbShape: RoundSliderThumbShape(
+                enabledThumbRadius: 10.0,
+              ),
+              trackShape: RectangularSliderTrackShape(),
+              trackHeight: 8.0,
+              activeTrackColor: Color(0xffFF8600),
+              inactiveTrackColor: Color(0xffEFEFEF),
+              thumbColor: Color(0xff101432),
+            ),
+            child: Slider(
+                value: timeLapse,
+                min: 3,
+                max: 7,
+                divisions: 4,
+                label: (timeLapse).toString(),
+                onChanged: (value) {
+                  setState(() {
+                    timeLapse = value;
+                    if (dynamicNumberPageState._timer != null &&
+                        dynamicNumberPageState._timer!.isActive) {
+                      dynamicNumberPageState._timer!.cancel();
+                      dynamicNumberPageState.startPronouncing(
+                          widget.initialValue, widget.finalValue);
+                    }
+                  });
+                }),
+          ),
+          const Text(
+            "For modification, press pause and then play",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xff101432),
+                fontSize: 12),
+          ),
         ],
       ),
     );

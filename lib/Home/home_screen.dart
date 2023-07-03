@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
-    final double topSpacing = 80.0; // Adjust the value as per your requirement
+    final double topSpacing = 40.0; // Adjust the value as per your requirement
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -93,8 +93,6 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            // width: double.infinity,
-            // height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/bg.png'),
@@ -128,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -148,8 +146,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/numbers_word.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -161,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -171,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -200,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -220,8 +218,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/word_numbers.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -233,7 +231,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -243,7 +241,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -272,7 +270,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -292,8 +290,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/odd_even.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -305,7 +303,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -315,7 +313,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -352,7 +350,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -372,8 +370,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/roman_digit.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -385,7 +383,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -395,7 +393,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -424,7 +422,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -444,8 +442,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/numbers.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -457,7 +455,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -467,7 +465,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -497,7 +495,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                padding: EdgeInsets.only(top: 15,bottom: 15, right: 7,left: 7),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -517,8 +515,8 @@ class HomeScreen extends StatelessWidget {
                                         image: AssetImage(
                                           "assets/images/spellings.png",
                                         ),
-                                        width: 24,
-                                        height: 24,
+                                        width: 35,
+                                        height: 35,
                                       ),
                                     ),
                                     const SizedBox(height: 6.0),
@@ -530,7 +528,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -540,7 +538,7 @@ class HomeScreen extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               textStyle: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 9,
+                                                fontSize: 12,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),

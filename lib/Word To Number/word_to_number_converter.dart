@@ -1,4 +1,3 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -28,13 +27,13 @@ class _WordToNumberConverterScreenState
   String? get _invalid {
     final text = _wordController.value.text;
     if (text.isEmpty) {
-      return 'Can\'t be empty';
+      return 'Can\'t be empty!';
     }
     if (text.contains(".")) {
-      return 'Can\'t Contain Point';
+      return 'Can\'t Contain Point!';
     }
     if (text.contains(RegExp(r'[0-9]'))) {
-      return "Can\'t Contain Number";
+      return "Can\'t Contain Number!";
     }
     return " ";
   }
@@ -47,39 +46,61 @@ class _WordToNumberConverterScreenState
       _numberOutput = number;
     });
     if (_validate) {
-      if (!(_invalid == " ")){
-      print("Alert box");
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Center(child: Text('Error')),
-            content: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey, // Set your desired background color
-                borderRadius:
-                BorderRadius.circular(10.0), // Set the circular radius
+      if (!(_invalid == " ")) {
+        print("Alert box");
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                _invalid ?? 'Unknown error',
-                style: TextStyle(
-                  color: Colors.white, // Set the text color
-                  fontSize: 16.0, // Set the font size
+              title: Center(child: Text('ERROR')),
+              titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              content: Container(
+                height: 155,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 80.0,
+                      icon: Image.asset(
+                        'assets/images/att.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    Text(
+                      _invalid ?? 'Unknown error',
+                      style: TextStyle(
+                          color: Colors.red, // Set the text color
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold // Set the font size
+                          ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('OK', style: TextStyle(color: Colors.redAccent)),
-              ),
-            ],
-          );
-        },
-      );
-      return;
-    }}
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+    }
   }
 
   String Words2Numbers(String string) {
@@ -232,11 +253,11 @@ class _WordToNumberConverterScreenState
     String textToCopy = 'Word: ${_wordController.text}\nNumber: $_numberOutput';
     Clipboard.setData(ClipboardData(text: textToCopy));
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    /*ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Copied to clipboard'),
       ),
-    );
+    );*/
   }
 
   void clear() {
@@ -263,418 +284,288 @@ class _WordToNumberConverterScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          leading: ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Container(
-                  padding: const EdgeInsets.all(5),
-                  child: Image.asset(
-                    'assets/images/back.png',
-                    width: 30,
-                    height: 30,
-                  ),
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Container(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  width: 30,
+                  height: 30,
                 ),
               ),
             ),
           ),
-          // onPressed: () => Navigator.of(context).pop(),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text(''),
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // floatingActionButton: AvatarGlow(
-        //   endRadius: 75.0,
-        //   animate: isListening,
-        //   duration: const Duration(milliseconds: 2000),
-        //   glowColor: Colors.black,
-        //   repeat: true,
-        //   repeatPauseDuration: const Duration(milliseconds: 100),
-        //   showTwoGlows: true,
-        //   child: GestureDetector(
-        //     onTapDown: (details) async {
-        //       if (!isListening) {
-        //         var available = await speechToText.initialize();
-        //         if (available) {
-        //           setState(() {
-        //             isListening = true;
-        //             speechToText.listen(onResult: (result) {
-        //               setState(() {
-        //                 text = result.recognizedWords;
-        //                 _wordController.text = text;
-        //               });
-        //             });
-        //           });
-        //         }
-        //       }
-        //     },
-        //     onTapUp: (details) {
-        //       setState(() {
-        //         isListening = false;
-        //       });
-        //       speechToText.stop();
-        //     },
-        //     child: CircleAvatar(
-        //       backgroundColor: Colors.blue,
-        //       radius: 35,
-        //       child: Icon(isListening ? Icons.mic : Icons.mic_none,
-        //           color: Colors.white),
-        //     ),
-        //   ),
-        // ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
-          ),
-          child: Column(
-            children: [
-              Row(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(''),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: CustomScrollView(slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/bg.png"),
+                    fit: BoxFit.fill),
+              ),
+              child: Column(
                 children: [
-                  const SizedBox(width: 16.0),
-                  SafeArea(
-                    child: Container(
-                      height: 90,
-                      child: Container(
-                        height: 90,
-                        child: Column(
+                  Row(
+                    children: [
+                      const SizedBox(width: 16.0),
+                      SafeArea(
+                        child: Container(
+                          height: 90,
+                          child: Container(
+                            height: 90,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("WORD TO NUMBER",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                          color: Colors.white)),
+                                  Text("Converter",
+                                      style: const TextStyle(
+                                          fontSize: 30, color: Colors.white))
+                                ]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional.topCenter,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 60),
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.white,
+                          ),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("WORD TO NUMBER",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      color: Colors.white)),
-                              Text("Converter",
-                                  style: const TextStyle(
-                                      fontSize: 30, color: Colors.white))
-                            ]), /*Text(
-                      'WORD TO NUMBER \nConverter',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.white),
-                    ),*/
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: [
-                  /*Align(
-                    alignment: AlignmentDirectional.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30),
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: (TextField(
-                        controller: _wordController,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          *//*focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),*//*
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Enter a word',
-                          // errorText: _validate ? '$_invalid' : " ",
-                          *//*errorStyle:
-                              TextStyle(color: Colors.purple, fontSize: 12),*//*
-                        ),
-                        onChanged: (text) => setState(() => _wordController),
-                      )),
-                    ),
-                  ),*/
-                  Align(
-                    alignment: AlignmentDirectional.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30),
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: TextField(
-                        focusNode: _focusNode,
-                        controller: _wordController,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Enter a word',
-                        ),
-                        onChanged: (text) => setState(() => _wordController),
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60.0),
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.all(60),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 4),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          children: [
-                            const Text("Your Answer is",
-                                style: TextStyle(fontSize: 18)),
-                            const SizedBox(height: 2),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                _numberOutput,
-                                style: GoogleFonts.roboto(
-                                  textStyle: const TextStyle(
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Enter a Word',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                              TextField(
+                                focusNode: _focusNode,
+                                controller: _wordController,
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Enter a here',
+                                  hintStyle: TextStyle(fontSize: 20),
+                                ),
+                                onChanged: (text) =>
+                                    setState(() => _wordController),
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 22,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 100.0),
+                        child: SingleChildScrollView(
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            margin: const EdgeInsets.all(60),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 4),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Your Answer is",
+                                        style: TextStyle(fontSize: 18)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        _numberOutput,
+                                        style: GoogleFonts.roboto(
+                                          textStyle: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 65.0, top: 85),
+                          child: IconButton(
+                            icon: Image.asset('assets/images/convert_btn.png'),
+                            iconSize: 80,
+                            onPressed: () {
+                              setState(() {
+                                _invalid!.isEmpty
+                                    ? _validate = false
+                                    : _validate = true;
+                                // _numberController.text.contains(" ") ? _validate = true : _validate = false;
+                              });
+                              _validate ? convertWordToNumber() : null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 80.0, left: 80.0),
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox(
+                              // width: 256,
+                              height: 65,
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: ElevatedButton(
+                                          onPressed: share,
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.transparent),
+                                          ),
+                                          child: Image.asset(
+                                              'assets/images/share.png',
+                                              fit: BoxFit.contain),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: ElevatedButton(
+                                          onPressed: copy,
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.transparent),
+                                          ),
+                                          child: Image.asset(
+                                              'assets/images/copy.png',
+                                              fit: BoxFit.contain),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: ElevatedButton(
+                                          onPressed: clear,
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.transparent),
+                                          ),
+                                          child: Image.asset(
+                                              'assets/images/clear.png',
+                                              fit: BoxFit.contain),
+                                        ),
+                                      ),
+                                      Flexible(
+                                          child: ElevatedButton(
+                                        onPressed: () =>
+                                            speak(int.parse(_numberOutput)),
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const CircleBorder(),
+                                          backgroundColor:
+                                              Color.fromRGBO(255, 171, 0, 1),
+                                          fixedSize: const Size(45, 45),
+                                        ),
+                                        child: Image.asset(
+                                          'assets/images/speak.png',
+                                          // fit: BoxFit.contain,
+                                        ),
+                                      )),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 65.0, top: 40),
-                      child: IconButton(
-                        icon: Image.asset('assets/images/convert_btn.png'),
-                        iconSize: 80,
-                        onPressed: () {
-                          setState(() {
-                            _invalid!.isEmpty
-                                ? _validate = false
-                                : _validate = true;
-                            // _numberController.text.contains(" ") ? _validate = true : _validate = false;
-                          });
-                          _validate ? convertWordToNumber() : null;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              /*Container(
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: Image.asset("assets/images/share.png")),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Image.asset("assets/images/copy.png")),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Image.asset("assets/images/clear.png")),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Image.asset("assets/images/speak.png")),
-                  ],
-                ),
-              )*/
-              Padding(
-                padding: const EdgeInsets.only(right: 80.0, left: 80.0),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: SizedBox(
-                          // width: 256,
-                          height: 65,
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                            ),
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: share,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/share.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: copy,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/copy.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: ElevatedButton(
-                                      onPressed: clear,
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                      ),
-                                      child: Image.asset(
-                                          'assets/images/clear.png',
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                  Flexible(
-                                      child: ElevatedButton(
-                                    onPressed: () =>
-                                        speak(int.parse(_numberOutput)),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 171, 0, 1),
-                                      fixedSize: const Size(45, 45),
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/speak.png',
-                                      // fit: BoxFit.contain,
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
-  }
-}
-
-/*child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                controller: _wordController,
-                decoration: InputDecoration(
-                  hintText: 'Word',
-                  labelText: 'Enter a word',
-                  // errorText: _validate ? 'Invalid Input' : null,
-                  errorText: _validate ? '$_invalid' : " ",
-                ),
-                onChanged: (text) => setState(() => _wordController),
-              ),
-              const SizedBox(height: 16.0),
-              Text(
-                'Number: $_numberOutput',
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _invalid!.isEmpty ? _validate = false : _validate = true;
-                    // _numberController.text.contains(" ") ? _validate = true : _validate = false;
-                  });
-                  _validate? convertWordToNumber() : null;
-                },
-                child: const Text('Convert'),
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: Tooltip(
-                      message: "Share",
-                      child: ElevatedButton(
-                        onPressed: share,
-                        child: const Icon(Icons.share),
-                      ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 16.0),
-                  Expanded(
-                    child: Tooltip(
-                      message: "Copy",
-                      child: ElevatedButton(
-                        onPressed: copy,
-                        child: const Icon(Icons.copy_all),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16.0),
-                  Expanded(
-                    child: Tooltip(
-                      message: "Clear",
-                      child: ElevatedButton(
-                        onPressed: clear,
-                        child: const Icon(Icons.layers_clear),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16.0),
-                  Expanded(
-                    child: Tooltip(
-                      message: "Speak",
-                      child: ElevatedButton(
-                        onPressed: () => speak(int.parse(_numberOutput)),
-                        child: const Icon(Icons.record_voice_over_rounded),
-                      ),
-                    ),
-                  ),
+                  const SizedBox(
+                    height: 16,
+                  )
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ]),
       ),
     );
   }
-}*/
+}

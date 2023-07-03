@@ -19,21 +19,6 @@ class OneTwoThreeScreen extends StatefulWidget {
 class _OneTwoThreeScreenState extends State<OneTwoThreeScreen> {
   @override
   Widget build(BuildContext context) {
-    Future openDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Volume(),
-          );
-        });
-    Future OpenDialog() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const Dialog(
-            child: Timelapse(),
-          );
-        });
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -151,6 +136,9 @@ class _NumberPageState extends State<NumberPage>
   Future pressVolume() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return const Dialog(
           child: Volume(),
         );
@@ -158,6 +146,9 @@ class _NumberPageState extends State<NumberPage>
   Future OpenDialog() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return const Dialog(
           child: Timelapse(),
         );
@@ -234,8 +225,7 @@ class _NumberPageState extends State<NumberPage>
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white),
+                        shape: BoxShape.circle, color: Colors.white),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: IconButton(
@@ -283,7 +273,6 @@ class _NumberPageState extends State<NumberPage>
                           SizedBox(
                             width: 3,
                           ),
-
                           IconButton(
                             onPressed: () {
                               pressVolume();
@@ -319,33 +308,51 @@ class _TimelapseState extends State<Timelapse> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 80,
-      height: 100,
+      height: 120,
       child: Column(
         children: [
           const SizedBox(height: 16.0),
           const Text(
-            "TimeLapse",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            "SET TIME-INTERVAL",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xff101432),
+                fontSize: 20),
           ),
-          Slider(
-              value: timeLapse,
-              min: 1,
-              max: 5,
-              divisions: 4,
-              label: timeLapse.toString(),
-              onChanged: (value) {
-                setState(() {
-                  timeLapse = value;
-                  if (numberPageState._timer != null &&
-                      numberPageState._timer!.isActive) {
-                    numberPageState._timer!.cancel();
-                    numberPageState.startPronouncing();
-                  }
-                });
-              }),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              thumbShape: RoundSliderThumbShape(
+                enabledThumbRadius: 10.0,
+              ),
+              trackShape: RectangularSliderTrackShape(),
+              trackHeight: 8.0,
+              activeTrackColor: Color(0xffFF8600),
+              inactiveTrackColor: Color(0xffEFEFEF),
+              thumbColor: Color(0xff101432),
+            ),
+            child: Slider(
+                value: timeLapse,
+                min: 1,
+                max: 5,
+                divisions: 4,
+                label: timeLapse.toString(),
+                onChanged: (value) {
+                  setState(() {
+                    timeLapse = value;
+                    if (numberPageState._timer != null &&
+                        numberPageState._timer!.isActive) {
+                      numberPageState._timer!.cancel();
+                      numberPageState.startPronouncing();
+                    }
+                  });
+                }),
+          ),
           const Text(
-            "Press stop and then start to reflect change",
-            style: TextStyle(fontSize: 13),
+            "For modification, press pause and then play",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xff101432),
+                fontSize: 12),
           ),
         ],
       ),

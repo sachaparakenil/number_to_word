@@ -15,9 +15,10 @@ class _SplashState extends State<Splash> {
     _navigatetohome();
   }
 
-  _navigatetohome() async{
+  _navigatetohome() async {
     await Future.delayed(Duration(milliseconds: 1500), () {});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => MyApp()));
   }
 
   @override
@@ -33,7 +34,11 @@ class _SplashState extends State<Splash> {
         child: Padding(
           padding: const EdgeInsets.all(70.0),
           child: Center(
-             child: Image(image: AssetImage("assets/images/splash_ic.png", ),),
+            child: Image(
+              image: AssetImage(
+                "assets/images/splash_ic.png",
+              ),
+            ),
           ),
         ),
       ),

@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:number_to_word/Additional/volume.dart';
+
+import '../Additional/constants.dart';
 
 double timeLapse = 1.0;
 
@@ -11,12 +14,13 @@ class EvenOdd extends StatefulWidget {
   final int finalValue;
   late int currentNumber;
   late int showInt;
+  late String maintext;
   EvenOdd(
       {super.key,
       required this.initialValue,
       required this.finalValue,
       required this.currentNumber,
-      required this.showInt});
+      required this.showInt, required this.maintext});
 
   @override
   State<EvenOdd> createState() => _EvenOddState();
@@ -55,7 +59,7 @@ class _EvenOddState extends State<EvenOdd> {
         initialValue: widget.initialValue,
         finalValue: widget.finalValue,
         currentNumber: widget.currentNumber,
-        showInt: widget.showInt,
+        showInt: widget.showInt, maintext: widget.maintext,
       ),
     );
   }
@@ -67,12 +71,13 @@ class EvenOddNumberPage extends StatefulWidget {
   final int finalValue;
   late int currentNumber;
   late int showInt;
+  late String maintext;
   EvenOddNumberPage(
       {super.key,
       required this.initialValue,
       required this.finalValue,
       required this.currentNumber,
-      required this.showInt});
+      required this.showInt, required this.maintext});
 
   @override
   _EvenOddNumberPageState createState() => _EvenOddNumberPageState();
@@ -155,6 +160,9 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
   Future OpenDialog() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return const Dialog(
           child: Timelapse(),
         );
@@ -163,10 +171,25 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
   Future pressVolume() => showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
         return const Dialog(
           child: Volume(),
         );
       });
+
+  void _copyToClipboard() {
+    var spell = shownumber(widget.showInt);
+    String textToCopy =
+        'Number: ${widget.showInt.toString()}\nWord: $spell';
+    Clipboard.setData(ClipboardData(text: textToCopy));
+    /*ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Copied to clipboard'),
+      ),
+    );*/
+  }
 
   @override
   void initState() {
@@ -175,16 +198,6 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
     flutterTts.setVolume(0.5);
     flutterTts.setLanguage("en-US");
     isPronouncing = false;
-    // _animationController = AnimationController(
-    //   duration: const Duration(milliseconds: 500),
-    //   vsync: this,
-    // );
-    // _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    // _animationController.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     _animationController.reverse();
-    //   }
-    // });
   }
 
   @override
@@ -214,7 +227,7 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("ODD EVEN",
+                          Text(widget.maintext,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 30,
@@ -229,22 +242,32 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
             ),
             Container(
               margin: EdgeInsets.all(20),
-              width: 170,
+              width: 190,
               height: 170,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
               child: Center(
-                child: Text(
-                  widget.showInt.toString(),
-                  style: const TextStyle(fontSize: 70),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(widget.showInt.toString(),
+                        style: const TextStyle(
+                            fontSize: 45, fontWeight: FontWeight.bold)),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      shownumber(widget.showInt).toString(),
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 20.0),
             Container(
-              // padding: EdgeInsets.only(right: 70, left: 70),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -275,27 +298,25 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        // shape: BoxShape.circle,
                         color: Color(0xff101432)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 8),
                       child: Row(
                         children: [
-                          // Container(
-                          //   padding: EdgeInsets.only(left: 5),
-                          //   child: ElevatedButton(
-                          //     onPressed: _restartCounting,
-                          //     child: Image.asset('assets/images/reset.png',
-                          //         fit: BoxFit.contain),
-                          //   ),
-                          // ),
                           IconButton(
                               onPressed: _restartCounting,
                               icon: Image.asset('assets/images/reset.png',
                                   fit: BoxFit.contain)),
                           SizedBox(
-                            width: 3,
+                            width: 2,
+                          ),
+                          IconButton(
+                              onPressed: _copyToClipboard,
+                              icon: Image.asset('assets/images/copy.png',
+                                  fit: BoxFit.contain)),
+                          SizedBox(
+                            width: 2,
                           ),
                           IconButton(
                             onPressed: () {
@@ -305,7 +326,7 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                                 fit: BoxFit.contain),
                           ),
                           SizedBox(
-                            width: 3,
+                            width: 2,
                           ),
 
                           IconButton(
@@ -341,33 +362,49 @@ class _TimelapseState extends State<Timelapse> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 80,
-      height: 100,
-      child: Column(
-        children: [
-          const SizedBox(height: 16.0),
-          const Text(
-            "TimeLapse",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Slider(
-              value: timeLapse,
-              min: 1,
-              max: 5,
-              divisions: 4,
-              label: timeLapse.toString(),
-              onChanged: (value) {
-                setState(() {
-                  timeLapse = value;
-                  // if (numberPageState._timer != null &&
-                  //     numberPageState._timer!.isActive) {
-                  //   numberPageState._timer!.cancel();
-                  //   numberPageState.startPronouncing();
-                  // }
-                });
-              }),
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        width: 80,
+        height: 120,
+        child: Column(
+          children: [
+            const SizedBox(height: 16.0),
+            const Text(
+              "SET TIME-INTERVAL",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff101432),fontSize: 20),
+            ),
+            SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                thumbShape: RoundSliderThumbShape(
+                  enabledThumbRadius: 10.0,
+                ),
+                trackShape: RectangularSliderTrackShape(),
+                trackHeight: 8.0,
+                activeTrackColor: Color(0xffFF8600),
+                inactiveTrackColor: Color(0xffEFEFEF),
+                thumbColor: Color(0xff101432),
+              ),
+              child: Slider(
+                  value: timeLapse,
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  label: timeLapse.toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      timeLapse = value;
+                    });
+                  }),
+            ),
+            const Text(
+              "For modification, press pause and then play",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff101432),fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }

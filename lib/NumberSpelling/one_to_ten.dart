@@ -36,29 +36,31 @@ class _OneToTenState extends State<OneToTen> {
       appBar: AppBar(
         title: const Text("Number Pronouncer"),
       ),
-      floatingActionButton:
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: () {
-            openDialog();
-            setState(() {});
-          },
-          tooltip: "Volume Control",
-          child: const Icon(Icons.volume_up),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          heroTag: "btn2",
-          onPressed: () {
-            OpenDialog();
-          },
-          tooltip: "Time Lapse",
-          child: const Icon(Icons.timer),
-        ),
-      ],),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: "btn1",
+            onPressed: () {
+              openDialog();
+              setState(() {});
+            },
+            tooltip: "Volume Control",
+            child: const Icon(Icons.volume_up),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            heroTag: "btn2",
+            onPressed: () {
+              OpenDialog();
+            },
+            tooltip: "Time Lapse",
+            child: const Icon(Icons.timer),
+          ),
+        ],
+      ),
       body: const NumberPage(),
     );
   }
