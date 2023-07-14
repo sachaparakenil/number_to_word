@@ -1,6 +1,7 @@
 # number_to_word, word_to_number, One two three, number spelling
 
 Description
+
 There are six main functions in total for the Number to Word Converter App.
 1.	Number to Word: With just one click, number to word can change huge amounts into words. It also contains share, clear, copy, talk, and voice-to-text features.
 2.	Word to Number: It quickly changes long words into numbers and displays an error box when the input is incorrect. It also contains features for sharing, clearing, copying, and speaking to offer more clarity.
