@@ -1,5 +1,7 @@
-# number_to_word, word_to_number, One two three, number spelling
+<img src="https://github.com/sachaparakenil/number_to_word/blob/master/assets/images/icon.png" width="60"/>
 
+
+# number_to_word, word_to_number, One two three, number spelling
 
 Description
 ### [number_to_word](https://github.com/sachaparakenil/number_to_word) is my project for PlayStore and AppStore.
