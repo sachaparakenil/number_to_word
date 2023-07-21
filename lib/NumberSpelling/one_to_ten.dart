@@ -209,7 +209,7 @@ class _NumberPageState extends State<NumberPage>
                   return Opacity(
                     opacity: _animation.value,
                     child: Text(
-                      shownumber(showint).toString(),
+                      ShowNumber(showint).toString(),
                       style: const TextStyle(fontSize: 70),
                     ),
                   );

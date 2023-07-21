@@ -81,14 +81,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   late FlutterTts flutterTts;
   bool isPronouncing = false;
   Timer? _timer;
-  // late AnimationController _animationController;
-  // late Animation<double> _animation;
   double timeLap = 2;
-
-  // Future<void> speakNumber(String numberText) async {
-  //   await flutterTts.setLanguage('en-US');
-  //   await flutterTts.speak(numberText);
-  // }
 
   Future<void> speakNumber(String numberText) async {
     await flutterTts.setLanguage('en-US');
@@ -113,7 +106,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
         widget.currentInt = initialValue;
       });
     }
-    // isPronouncing = true;
     _timer = Timer.periodic(Duration(seconds: timeLapse.toInt()), (timer) {
       setState(() {
         if (widget.currentInt < finalValue) {
@@ -151,7 +143,7 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   }
 
   void _copyToClipboard() {
-    var spell = shownumber(widget.showInt);
+    var spell = ShowNumber(widget.showInt);
     String textToCopy = 'Number: ${widget.showInt.toString()}\nWord: $spell';
     Clipboard.setData(ClipboardData(text: textToCopy));
     /*ScaffoldMessenger.of(context).showSnackBar(
@@ -210,7 +202,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
   void dispose() {
     flutterTts.stop();
     _timer?.cancel();
-    // _animationController.dispose();
     super.dispose();
   }
 
@@ -261,13 +252,13 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                     children: [
                       Text(widget.showInt.toString(),
                           style: const TextStyle(
-                              fontSize: 45, fontWeight: FontWeight.bold)),
+                              fontSize: 45, fontWeight: FontWeight.bold, color: Colors.black)),
                       SizedBox(
                         height: 16,
                       ),
                       Text(
-                        shownumber(widget.showInt).toString(),
-                        style: const TextStyle(fontSize: 30),
+                        ShowNumber(widget.showInt).toString(),
+                        style: const TextStyle(fontSize: 30, color: Colors.black),
                       ),
                     ],
                   ),
@@ -276,7 +267,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
               const SizedBox(height: 20.0),
               const SizedBox(height: 20.0),
               Container(
-                // padding: EdgeInsets.only(right: 70, left: 70),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -306,7 +296,6 @@ class DynamicNumberPageState extends State<DynamicNumberPage>
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          // shape: BoxShape.circle,
                           color: Color(0xff101432)),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -376,7 +365,6 @@ class DynamicTimelapse extends StatefulWidget {
 }
 
 class DynamicTimelapseState extends State<DynamicTimelapse> {
-  // _NumberPageState numberPageState = _NumberPageState();
 
   DynamicNumberPageState dynamicNumberPageState = DynamicNumberPageState();
 

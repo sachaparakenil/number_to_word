@@ -180,7 +180,7 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
       });
 
   void _copyToClipboard() {
-    var spell = shownumber(widget.showInt);
+    var spell = ShowNumber(widget.showInt);
     String textToCopy =
         'Number: ${widget.showInt.toString()}\nWord: $spell';
     Clipboard.setData(ClipboardData(text: textToCopy));
@@ -254,13 +254,13 @@ class _EvenOddNumberPageState extends State<EvenOddNumberPage>
                   children: [
                     Text(widget.showInt.toString(),
                         style: const TextStyle(
-                            fontSize: 45, fontWeight: FontWeight.bold)),
+                            fontSize: 45, fontWeight: FontWeight.bold, color: Colors.black,)),
                     SizedBox(
                       height: 16,
                     ),
                     Text(
-                      shownumber(widget.showInt).toString(),
-                      style: const TextStyle(fontSize: 30),
+                      ShowNumber(widget.showInt).toString(),
+                      style: const TextStyle(fontSize: 30, color: Colors.black,),
                     ),
                   ],
                 ),

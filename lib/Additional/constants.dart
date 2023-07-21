@@ -1,4 +1,4 @@
-String shownumber(int number) {
+String ShowNumber(int number) {
   switch (number) {
     case 0:
       return 'Zero';

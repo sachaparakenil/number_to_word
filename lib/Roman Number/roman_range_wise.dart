@@ -359,7 +359,7 @@ class RomanNumberScreen extends StatelessWidget {
                             title: Text(
                               '$arabicNumber - $romanNumber',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
                         ),
@@ -395,7 +395,7 @@ class RomanNumberScreen extends StatelessWidget {
                             title: Text(
                               '${arabicNumber + 1} - ${_toRomanNumber(arabicNumber + 1)}',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
                         ),

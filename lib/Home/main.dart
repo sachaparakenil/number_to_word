@@ -4,7 +4,7 @@ import 'package:number_to_word/Roman%20Number/roman_numbers.dart';
 import 'package:number_to_word/Word%20To%20Number/word_to_number_converter.dart';
 import '../Even Odd/even_odd_numbers.dart';
 import '../NumberSpelling/one_to_ten.dart';
-import '../splash.dart';
+import 'package:number_to_word/Home/splash.dart';
 import 'home_screen.dart';
 import '../Number To Word/number_to_word_converter.dart';
 import '../One Two Three/one_two_three.dart';

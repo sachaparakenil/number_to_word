@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
-    final double topSpacing = 40.0; // Adjust the value as per your requirement
+    final double topSpacing = 40.0;
 
     return Scaffold(
       extendBodyBehindAppBar: true,

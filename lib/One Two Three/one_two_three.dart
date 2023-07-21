@@ -213,7 +213,7 @@ class _NumberPageState extends State<NumberPage>
               child: Center(
                 child: Text(
                   showint.toString(),
-                  style: const TextStyle(fontSize: 70),
+                  style: const TextStyle(fontSize: 70, color: Colors.black),
                 ),
               ),
             ),

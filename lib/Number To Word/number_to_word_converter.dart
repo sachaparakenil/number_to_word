@@ -341,6 +341,7 @@ class _NumberToWordConverterScreenState
                                 Text(
                                   'Enter a Number',
                                   style: TextStyle(
+                                    color: Colors.black,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -368,7 +369,7 @@ class _NumberToWordConverterScreenState
                                     filled: true,
                                     fillColor: Colors.white,
                                     hintText: 'Enter here',
-                                    hintStyle: TextStyle(fontSize: 20),
+                                    hintStyle: TextStyle(fontSize: 20,color: Colors.black54,),
                                   ),
                                   onChanged: (text) => setState(() {}),
                                   style: TextStyle(
@@ -399,7 +400,7 @@ class _NumberToWordConverterScreenState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Your Answer is",
-                                          style: TextStyle(fontSize: 18)),
+                                          style: TextStyle(fontSize: 18, color: Colors.black,)),
                                       SizedBox(
                                         height: 10,
                                       ),
